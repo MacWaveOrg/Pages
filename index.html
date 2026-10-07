@@ -591,6 +591,59 @@
             环境要求：Python（3.14 及以上）、Xcode Command Line Tools（14.0 及以上）。
         </p>
 
+        <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="en">Unattended install</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="zh">无人值守安装</h3>
+
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            For scripts and batch use, the installer takes flags so it never waits for input. Options go after <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code>, which ends bash&rsquo;s own options:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            面向脚本与批量场景，安装器提供若干参数，全程不会停下来等待输入。参数放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 之后 —— <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 会结束 bash 自身的选项：
+        </p>
+        <div class="code-container has-copy-btn">
+            <button class="copy-btn" onclick="copyCode(this)">
+                <div class="copy-icon">
+                    <div class="square-back"></div>
+                    <div class="square-front"></div>
+                </div>
+            </button>
+            <pre># script already on disk
+<span class="code-dollar">$</span> bash install.sh --silent --dir-option=1
+
+# straight from the repository
+<span class="code-dollar">$</span> /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/MacWaveOrg/MacWave/HEAD/lib/install.sh)" \
+  -- --silent --dir-option=2</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--silent</code> (<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-S</code>) answers the directory menu and the agreement automatically. It needs passwordless sudo, or root, when the chosen directory requires privilege. <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=N</code> picks menu entry <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">N</code> (1-4 on Intel, 1-3 on Apple silicon); for the custom entry, append the path after <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">=</code>, as in <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=4=/opt/my-macwave</code>. Run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh --help</code> for the list.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--silent</code>（<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-S</code>）会自动应答目录菜单与许可协议；当选中的目录需要提权时，它要求免密 sudo 或以 root 运行。<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=N</code> 免菜单直接选定第 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">N</code> 项（Intel 机器为 1-4，Apple 芯片为 1-3）；自定义项要在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">=</code> 之后附上路径，例如 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=4=/opt/my-macwave</code>。完整参数列表可运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh --help</code> 查看。
+        </p>
+
+        <p class="install-note" data-lang="en">
+            <strong>Mind where the options go.</strong> Writing <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">/bin/bash -c "$(curl ...)" --silent</code> makes <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--silent</code> the script name (<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">$0</code>), so it is silently dropped; the installer warns when it detects this. The working form puts the options after <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code>.
+        </p>
+        <p class="install-note" data-lang="zh">
+            <strong>注意参数的位置。</strong>写成 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">/bin/bash -c "$(curl ...)" --silent</code> 会让 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--silent</code> 变成脚本名（<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">$0</code>），从而被静默丢弃；安装器检测到这种用法时会给出警告。正确写法是把参数放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 之后。
+        </p>
+
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">uninstall.sh</code> is scriptable in the same way: <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> skips the confirmation, which otherwise needs a terminal (use <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> in CI):
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">uninstall.sh</code> 同样支持脚本化调用：<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> 跳过确认，而确认本身需要一个终端（因此在 CI 里请使用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code>）：
+        </p>
+        <div class="code-container has-copy-btn">
+            <button class="copy-btn" onclick="copyCode(this)">
+                <div class="copy-icon">
+                    <div class="square-back"></div>
+                    <div class="square-front"></div>
+                </div>
+            </button>
+            <pre><span class="code-dollar">$</span> /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/MacWaveOrg/MacWave/HEAD/lib/uninstall.sh)" -- --force</pre>
+        </div>
+
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Uninstall MacWave</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">卸载 MacWave</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
@@ -878,7 +931,8 @@ zoxide        by Ajeet D'Souza
             const pre = btn.parentElement.querySelector('pre');
             if (!pre) return;
             let text = pre.textContent;
-            text = text.replace(/^\$\s/, '');
+            // 多行代码块里每一行都可能带 "$ " 提示符，逐行剥离（单行块行为不变）
+            text = text.replace(/^\$\s/gm, '');
             navigator.clipboard.writeText(text).then(() => {
                 btn.classList.add('copied');
                 setTimeout(() => {
