@@ -742,8 +742,7 @@
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Command Reference</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">命令参考</h2>
-        <pre>
-Usage:
+        <pre>Usage:
   wave &lt;command&gt; [package] [flags]
 
 Commands:
@@ -757,7 +756,7 @@ Commands:
   link        Link installed packages without a version number
   unlink      Remove those unversioned links
   linkquery   Show which version an unversioned link points to
-            
+
 Flags:
   -h, --help              Show help for any command
   -V, --version           Print version information
@@ -791,8 +790,7 @@ wave unlink &lt;name&gt;                 Remove that link
 Uninstalling a version re-points the link to the next highest one, and removes
 the link when no version is left. uninstall --unlink keeps the link as-is, and
 refuses to run when that would leave the link pointing at the version you are
-removing.
-</pre>
+removing.</pre>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Demo Pictures</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">演示图片</h2>
@@ -800,39 +798,6 @@ removing.
             <p>
                 <img src="images/demo1.png" alt="demo1">
             </p>
-        </div>
-
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Supported Packages</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">支持的软件包</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">(Listed in alphabetical order)</p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">（按字母顺序排列）</p>
-        <div class="code-container">
-            <pre>
-bat           by David Peter
-btop          by Aristocratos
-choma         by opa334
-dust          by bootandy
-eza           by Christina Sørensen and the eza community
-fd            by David Peter
-ffmpeg        by FFmpeg Team
-fileicon      by Michael Klement
-fzf           by Junegunn Choi
-htop          by Hisham Muhammad and the htop team
-ipsw          by blacktop
-jq            by Stephen Dolan, Nicolas Williams, et al.
-ldid          by Jay Freeman (saurik) / Procursus Team
-lsd           by Abin Simon
-ncdu          by Yoran Heling
-palera1n      by palera1n Team
-pandoc        by John MacFarlane
-rg            by Andrew Gallant
-tmux          by Nicholas Marriott and contributors
-tree          by Steve Baker, Thomas Moore, et al.
-trollrestore  by JJTech (@JJTech0130)
-wget          by GNU Project
-yq            by Mike Farah
-zoxide        by Ajeet D'Souza
-            </pre>
         </div>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">For Developers</h2>
@@ -849,14 +814,18 @@ zoxide        by Ajeet D'Souza
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
             若要阅读或修改源码，先把仓库克隆下来：
         </p>
-        <div class="code-container">
-            <pre>
-mkdir -p ~/src
+        <div class="code-container has-copy-btn">
+              <button class="copy-btn" onclick="copyCode(this)">
+                  <div class="copy-icon">
+                      <div class="square-back"></div>
+                      <div class="square-front"></div>
+                  </div>
+              </button>
+              <pre>mkdir -p ~/src
 cd ~/src
 git clone https://github.com/MacWaveOrg/MacWave.git macwave
-cd macwave
-            </pre>
-        </div>
+cd macwave</pre>
+          </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Read the section below before running anything from that directory.
         </p>
@@ -879,9 +848,7 @@ cd macwave
             完整的 clone 会报：
         </p>
         <div class="code-container">
-            <pre>
-🌊 Error: MacWave is a git clone!
-            </pre>
+            <pre>🌊 Error: MacWave is a git clone!</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             A shallow clone reports:
@@ -890,9 +857,7 @@ cd macwave
             shallow clone 会报：
         </p>
         <div class="code-container">
-            <pre>
-🌊 Error: MacWave is a shallow clone!
-            </pre>
+            <pre>🌊 Error: MacWave is a shallow clone!</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Both are followed by the same advice: install with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh</code>, choose a directory, and use the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> that installs. To exercise code you are changing, install a throwaway copy under a temporary root, or run the scripts in <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">scripts/</code>, which work on whatever installation is already present.
@@ -928,12 +893,10 @@ cd macwave
             每个命令都是一个模块，各自只有一个处理函数，由 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">lib/wave.py</code> 统一分派。所有 Mach-O 改写都集中在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">surfboard/</code>。
         </p>
         <div class="code-container">
-            <pre>
-lib/            entry point, help, configuration, self-update
+            <pre>lib/            entry point, help, configuration, self-update
 pkg/            install, upgrade, uninstall, links, version parsing
 surfboard/      dependency resolution, extraction, Mach-O relocation
-scripts/        tests and data audits
-            </pre>
+scripts/        tests and data audits</pre>
         </div>
         <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Adding a Package</h3>
         <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">收录一个软件包</h3>
@@ -965,18 +928,22 @@ scripts/        tests and data audits
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
             每个脚本都会完整跑一遍，结果以 PASS 或 FAIL 呈现：
         </p>
-        <div class="code-container">
-            <pre>
-bash scripts/configpath_test.sh    configuration directory resolution
+        <div class="code-container has-copy-btn">
+              <button class="copy-btn" onclick="copyCode(this)">
+                  <div class="copy-icon">
+                      <div class="square-back"></div>
+                      <div class="square-front"></div>
+                  </div>
+              </button>
+              <pre>bash scripts/configpath_test.sh    configuration directory resolution
 bash scripts/format_test.sh        every supported archive format
 bash scripts/deps_test.sh          dependency install and cascade removal
 bash scripts/link_test.sh          versionless links
 bash scripts/upgrade_test.sh       wave upgrade, offline
 bash scripts/selfupdate_test.sh    self-update; ends by updating for real
 python3 scripts/random_test.py     randomised end-to-end regression, needs network
-python3 scripts/audit_deps.py data audit the index against installed libraries
-            </pre>
-        </div>
+python3 scripts/audit_deps.py data audit the index against installed libraries</pre>
+          </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">random_test.py --dry-run</code> selects packages and prints the plan without touching the network.
         </p>
@@ -992,7 +959,38 @@ python3 scripts/audit_deps.py data audit the index against installed libraries
             所有分支都经由 PR 合入，且至少需要一次批准；禁止强制推送与删除分支。提交 PR 前请先运行上述脚本，并说明运行了哪些。报告缺陷时，请附上 <code>wave --version</code>、<code>sw_vers</code> 与 <code>uname -m</code> 的输出。
         </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">License</h2>
+<h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Supported Packages</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">支持的软件包</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">(Listed in alphabetical order)</p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">（按字母顺序排列）</p>
+        <div class="code-container">
+            <pre>bat           by David Peter
+btop          by Aristocratos
+choma         by opa334
+dust          by bootandy
+eza           by Christina Sørensen and the eza community
+fd            by David Peter
+ffmpeg        by FFmpeg Team
+fileicon      by Michael Klement
+fzf           by Junegunn Choi
+htop          by Hisham Muhammad and the htop team
+ipsw          by blacktop
+jq            by Stephen Dolan, Nicolas Williams, et al.
+ldid          by Jay Freeman (saurik) / Procursus Team
+lsd           by Abin Simon
+ncdu          by Yoran Heling
+palera1n      by palera1n Team
+pandoc        by John MacFarlane
+rg            by Andrew Gallant
+tmux          by Nicholas Marriott and contributors
+tree          by Steve Baker, Thomas Moore, et al.
+trollrestore  by JJTech (@JJTech0130)
+wget          by GNU Project
+yq            by Mike Farah
+zoxide        by Ajeet D'Souza</pre>
+        </div>
+
+                <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">License</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">许可证</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             This project is licensed under the <strong>MIT License</strong>.
