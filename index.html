@@ -704,7 +704,7 @@
             要运行某个软件包，请在终端中运行以下命令：
         </p>
         <div class="code-container">
-            <pre>{package_name}@{version}</pre>
+            <pre><span class="code-dollar">$</span> {package_name}@{version}</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Use the versioned name <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}@{version}</code>, or run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> once and then just type <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}</code>.
@@ -821,10 +821,10 @@ removing.</pre>
                       <div class="square-front"></div>
                   </div>
               </button>
-              <pre>mkdir -p ~/src
-cd ~/src
-git clone https://github.com/MacWaveOrg/MacWave.git macwave
-cd macwave</pre>
+              <pre><span class="code-dollar">$</span> mkdir -p ~/src
+<span class="code-dollar">$</span> cd ~/src
+<span class="code-dollar">$</span> git clone https://github.com/MacWaveOrg/MacWave.git macwave
+<span class="code-dollar">$</span> cd macwave</pre>
           </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Read the section below before running anything from that directory.
@@ -928,21 +928,37 @@ scripts/        tests and data audits</pre>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
             每个脚本都会完整跑一遍，结果以 PASS 或 FAIL 呈现：
         </p>
-        <div class="code-container has-copy-btn">
+                  <div class="code-container has-copy-btn" data-lang="en">
               <button class="copy-btn" onclick="copyCode(this)">
                   <div class="copy-icon">
                       <div class="square-back"></div>
                       <div class="square-front"></div>
                   </div>
               </button>
-              <pre>bash scripts/configpath_test.sh    configuration directory resolution
-bash scripts/format_test.sh        every supported archive format
-bash scripts/deps_test.sh          dependency install and cascade removal
-bash scripts/link_test.sh          versionless links
-bash scripts/upgrade_test.sh       wave upgrade, offline
-bash scripts/selfupdate_test.sh    self-update; ends by updating for real
-python3 scripts/random_test.py     randomised end-to-end regression, needs network
-python3 scripts/audit_deps.py data audit the index against installed libraries</pre>
+              <pre><span class="code-dollar">$</span> bash scripts/configpath_test.sh  configuration directory resolution
+<span class="code-dollar">$</span> bash scripts/format_test.sh      every supported archive format
+<span class="code-dollar">$</span> bash scripts/deps_test.sh        dependency install and cascade removal
+<span class="code-dollar">$</span> bash scripts/link_test.sh        versionless links
+<span class="code-dollar">$</span> bash scripts/upgrade_test.sh     wave upgrade, offline
+<span class="code-dollar">$</span> bash scripts/selfupdate_test.sh  self-update; ends by updating for real
+<span class="code-dollar">$</span> python3 scripts/random_test.py   randomised end-to-end regression, needs network
+<span class="code-dollar">$</span> python3 scripts/audit_deps.py data audit the index against installed libraries</pre>
+          </div>
+          <div class="code-container has-copy-btn" data-lang="zh">
+              <button class="copy-btn" onclick="copyCode(this)">
+                  <div class="copy-icon">
+                      <div class="square-back"></div>
+                      <div class="square-front"></div>
+                  </div>
+              </button>
+              <pre><span class="code-dollar">$</span> bash scripts/configpath_test.sh  配置目录的解析规则
+<span class="code-dollar">$</span> bash scripts/format_test.sh      全部受支持的归档格式
+<span class="code-dollar">$</span> bash scripts/deps_test.sh        依赖安装与级联清理
+<span class="code-dollar">$</span> bash scripts/link_test.sh        不含版本号的软链接
+<span class="code-dollar">$</span> bash scripts/upgrade_test.sh     wave upgrade（离线）
+<span class="code-dollar">$</span> bash scripts/selfupdate_test.sh  自更新，最后一步会真的更新一遍
+<span class="code-dollar">$</span> python3 scripts/random_test.py   随机化端到端回归，需要联网
+<span class="code-dollar">$</span> python3 scripts/audit_deps.py data 用已装的库审计索引数据</pre>
           </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">random_test.py --dry-run</code> selects packages and prints the plan without touching the network.
