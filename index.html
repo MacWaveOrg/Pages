@@ -483,16 +483,16 @@
         <img src="logo3.jpg" alt="MacWave Logo" class="logo-img logo-3">
     </div>
 
-    <p class="tagline" style="max-width:800px;" data-lang="en">A package manager for macOS software developers.</p>
-    <p class="tagline" style="max-width:800px;" data-lang="zh">面向 macOS 软件开发者的包管理器。</p>
+    <p class="tagline" style="max-width:800px;" data-lang="en">A package manager for macOS, built for the command-line tools macOS developers rely on.</p>
+    <p class="tagline" style="max-width:800px;" data-lang="zh">面向 macOS 的包管理器，用于分发开发者日常依赖的命令行工具。</p>
 
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="en">
         <span class="v-line">Latest Version : 3.2.0</span>
-        <span class="v-line">Release on 2026-10-12</span>
+        <span class="v-line">Release on 2026-10-24</span>
     </div>
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="zh">
         <span class="v-line">最新版本 : 3.2.0</span>
-        <span class="v-line">发布于 2026-10-12</span>
+        <span class="v-line">发布于 2026-10-24</span>
     </div>
 
     <a href="https://github.com/MacWaveOrg/MacWave/releases" class="btn-github" data-lang="en">View On GitHub</a>
@@ -517,39 +517,39 @@
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="en">About MacWave</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="zh">关于MacWave</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            <strong>MacWave</strong> is a <strong>package manager</strong> that runs on <strong>macOS</strong>, designed to host <strong>common software packages</strong> for <strong>macOS software developers</strong>.
+            <strong>MacWave</strong> is a <strong>package manager for macOS</strong>, built to distribute the <strong>command-line tools</strong> that <strong>macOS software developers</strong> rely on. Its sibling project, <strong>LinuxWave</strong>, covers Linux.
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            <strong>MacWave</strong> 是一个运行在 <strong>macOS</strong> 上的 <strong>包管理器</strong>，旨在为 <strong>macOS 软件开发者</strong> 托管 <strong>常用软件包</strong>。
+            <strong>MacWave</strong> 是一个<strong>面向 macOS 的包管理器</strong>，用于分发 <strong>macOS 软件开发者</strong>日常依赖的<strong>命令行工具</strong>。Linux 由兄弟项目 <strong>LinuxWave</strong> 覆盖。
         </p>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Why MacWave</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">为什么选择 MacWave</h2>
         <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;" data-lang="en">
-            <li><strong>Lightweight design, saves disk space.</strong> Files are pulled by the install script instead of cloning the repository, saving your disk space.</li>
-            <li><strong>One command, install common packages.</strong> No more scattered download links.</li>
-            <li><strong>Mandatory @version.</strong> Every binary is stored as <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package@version</code>, so multiple versions can coexist without conflicting with system tools.</li>
-            <li><strong>Fully Isolated. Upgrade-Proof.</strong> MacWave operates entirely within its own dedicated directories and never overwrites or links against macOS system libraries. Even across major macOS upgrades, your MacWave environment remains completely intact and functional.</li>
-            <li><strong>No cache, always up to date.</strong> Package metadata is fetched live from the <code>MacWaveOrg/infosource</code> repository.</li>
-            <li><strong>10 archive formats, CI-verified.</strong> Supports no-extension binaries, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.zip</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.gz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.bz2</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.xz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.gz</code>,<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.xz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.bz2</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.conda</code>.</li>
-            <li><strong>Verify first, extract later.</strong> SHA256 is checked before extraction.</li>
-            <li><strong>Resumable downloads.</strong> Interrupted? Resume with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-C</code>.</li>
-            <li><strong>Lightweight and transparent.</strong> Pure Python + Shell, with the interpreter bundled. No heavy runtime, no hidden behavior.</li>
-            <li><strong>Automatically manage dependencies.</strong> Support for software packages with dependencies, using reference counting and automatic dependency management, with no need to handle dependencies manually.</li>
-
+            <li><strong>Small on disk.</strong> The installer fetches individual files rather than cloning the repository, and there is no package cache to keep in sync.</li>
+            <li><strong>One command per package.</strong> Common tools are installed by name, without hunting for release pages.</li>
+            <li><strong>Versioned by design.</strong> Every binary lives under <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package@version</code>, so several versions coexist and none of them shadow a system tool.</li>
+            <li><strong>Optional unversioned links.</strong> <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link &lt;package&gt;</code> creates a plain <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package</code> shortcut that points at the highest installed version and re-points itself whenever versions are installed or removed.</li>
+            <li><strong>Isolated by construction.</strong> Everything MacWave installs stays inside its own directories; it never overwrites or links against macOS system libraries, so even a major macOS upgrade leaves it intact.</li>
+            <li><strong>No stale metadata.</strong> Package data is read from the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/infosource</code> repository at request time.</li>
+            <li><strong>Ten archive formats, covered by CI.</strong> Extensionless binaries, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.zip</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.gz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.bz2</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.xz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.gz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.xz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.bz2</code>, and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.conda</code>.</li>
+            <li><strong>Checksum before extraction.</strong> A package whose SHA256 is missing or does not match is refused, never installed with a warning.</li>
+            <li><strong>Resumable downloads.</strong> An interrupted transfer continues with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-C</code>.</li>
+            <li><strong>Transparent implementation.</strong> Python and Shell only. The interpreter is bundled, so no runtime has to be installed and no behaviour is hidden behind one.</li>
+            <li><strong>Dependencies handled for you.</strong> Packages that need libraries declare them; MacWave installs, tracks and removes those libraries by reference count.</li>
         </ul>
         <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;" data-lang="zh">
-            <li><strong>轻量化设计，节约磁盘空间。</strong> 采用安装脚本拉取文件的安装方式代替 clone，节约你的磁盘空间。</li>
-            <li><strong>一条命令，安装常用软件包。</strong> 不再需要到处寻找下载链接。</li>
-            <li><strong>强制 @version。</strong> 每个二进制文件都以 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package@version</code> 形式存储，因此多个版本可以共存，且不会与系统工具冲突。</li>
-            <li><strong>完全隔离，无惧升级。</strong> MacWave 完全在自己的专用目录中运行，绝不覆盖或链接 macOS 系统库。即使跨越大版本 macOS 升级，你的 MacWave 环境依然完整可用。</li>
-            <li><strong>无缓存，始终最新。</strong> 软件包元数据实时从 <code>MacWaveOrg/infosource</code> 仓库获取。</li>
-            <li><strong>支持 10 种归档格式，经 CI 验证。</strong> 支持无扩展名二进制文件、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.zip</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.gz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.bz2</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.xz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.gz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.xz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.bz2</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.conda</code>。</li>
-            <li><strong>先校验，后解压。</strong> 解压前先校验 SHA256。</li>
-            <li><strong>支持断点续传。</strong> 下载中断了？用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-C</code> 继续。</li>
-            <li><strong>轻量透明。</strong> 纯 Python + Shell，并自带解释器；无重型运行时，无隐藏行为。</li>
-            <li><strong>自动管理依赖。</strong> 支持带依赖的软件包，采用引用计数与自动依赖管理，无需手动处理依赖。</li>
-
+            <li><strong>占用小。</strong> 安装器按文件拉取，而不是 clone 整个仓库；也不保留需要同步的软件包缓存。</li>
+            <li><strong>一条命令装一个软件包。</strong> 常用工具按名字安装，不必再逐个寻找发布页。</li>
+            <li><strong>版本化存储。</strong> 每个二进制文件都存放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package@version</code> 之下，多个版本可以共存，且都不会遮蔽系统工具。</li>
+            <li><strong>可选的免版本号链接。</strong> <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link &lt;软件包&gt;</code> 会创建一个不带版本号的 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">软件包</code> 快捷方式，指向已安装的最高版本；安装或卸载版本时，它会自动改指。</li>
+            <li><strong>天然隔离。</strong> MacWave 安装的一切都留在自己的目录中，绝不覆盖或链接 macOS 系统库，因此即使跨越大版本升级 macOS，环境依然完整可用。</li>
+            <li><strong>元数据不会过期。</strong> 软件包数据在请求时从 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/infosource</code> 仓库读取。</li>
+            <li><strong>十种归档格式，均由 CI 覆盖。</strong> 无扩展名二进制文件、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.zip</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.gz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.bz2</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.xz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.gz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.xz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.bz2</code> 与 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.conda</code>。</li>
+            <li><strong>先校验，后解压。</strong> 缺少 SHA256 或校验不符的软件包会被拒绝，绝不「给出警告后照常安装」。</li>
+            <li><strong>支持断点续传。</strong> 传输中断后可用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-C</code> 继续。</li>
+            <li><strong>实现透明。</strong> 只用 Python 与 Shell，并自带解释器 —— 无需另装运行时，行为也没有藏在运行时里。</li>
+            <li><strong>依赖自动处理。</strong> 需要库的软件包会在记录中声明；MacWave 按引用计数安装、追踪并移除这些库。</li>
         </ul>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Supported macOS Version</h2>
@@ -593,6 +593,13 @@
         <p class="env-requirements" data-lang="zh">
             环境要求：macOS Sonoma 14 及以上、Xcode Command Line Tools（14.0 及以上）。<br>
             你不需要自己安装 Python —— MacWave 自带解释器。
+        </p>
+
+        <p class="env-requirements" data-lang="en">
+            This repository holds source, not an installation. Running <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> from inside a clone, or adding directories from the clone to <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>, fails by design.
+        </p>
+        <p class="env-requirements" data-lang="zh">
+            本仓库存放的是源码，不是安装结果。在 clone 里运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code>、或把 clone 中的目录加入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>，都会按设计失败。
         </p>
 
         <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="en">Unattended install</h3>
@@ -700,10 +707,10 @@
             <pre>{package_name}@{version}</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            Use the versioned name <strong>{package_name}@{version}</strong>, or run <strong>wave link {package_name}</strong> once and then just type <strong>{package_name}</strong>.
+            Use the versioned name <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}@{version}</code>, or run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> once and then just type <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}</code>.
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            使用带版本号的名称 <strong>{package_name}@{version}</strong>，或先运行一次 <strong>wave link {package_name}</strong>，之后直接输入 <strong>{package_name}</strong> 即可。
+            使用带版本号的名称 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}@{version}</code>，或先运行一次 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code>，之后直接输入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}</code> 即可。
         </p>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Symlink Management</h2>
@@ -827,6 +834,142 @@ yq            by Mike Farah
 zoxide        by Ajeet D'Souza
             </pre>
         </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">For Developers</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">面向开发者</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            MacWave is written in plain Python and Shell. There is no build step: the files in the repository are the ones that run. Internals are documented in <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">TECHNICAL-GUIDE.md</code> and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">CODE-MAP.md</code> in the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">docs/</code> directory.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            MacWave 由纯 Python 与 Shell 写成，没有构建步骤 —— 仓库里的文件就是实际运行的代码。内部实现见 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">docs/</code> 目录下的 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">TECHNICAL-GUIDE.md</code> 与 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">CODE-MAP.md</code>。
+        </p>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Do Not Run From the Clone</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">不要从仓库里直接运行</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            This repository is source, not an installation. Running <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> from inside the clone, or adding the clone&#39;s directories to <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>, fails on purpose: MacWave needs the configuration file that <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh</code> writes, and that file records the installation directory and the layout of everything beside it.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            本仓库是源码，不是安装结果。在仓库目录里运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code>，或把仓库中的目录加入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>，都会<strong>按设计</strong>失败：MacWave 依赖 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh</code> 写出的配置文件，而该文件记录了安装目录以及其旁各部分的布局。
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            A full clone reports:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            完整的 clone 会报：
+        </p>
+        <div class="code-container">
+            <pre>
+🌊 Error: MacWave is a git clone!
+            </pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            A shallow clone reports:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            shallow clone 会报：
+        </p>
+        <div class="code-container">
+            <pre>
+🌊 Error: MacWave is a shallow clone!
+            </pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Both are followed by the same advice: install with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh</code>, choose a directory, and use the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> that installs. To exercise code you are changing, install a throwaway copy under a temporary root, or run the scripts in <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">scripts/</code>, which work on whatever installation is already present.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            两者之后都会给出同样的建议：用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh</code> 安装、选择目录，然后使用安装出来的 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code>。若要验证正在修改的代码，请在临时根目录下安装一份丢弃副本，或直接运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">scripts/</code> 下的脚本 —— 它们作用于当前已有的那份安装。
+        </p>
+
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Repositories</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">仓库分工</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Three repositories make up the project:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            项目由三个仓库组成：
+        </p>
+        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-lang="en">
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/MacWave</code> — the program itself</li>
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/infosource</code> — the package index, one directory per package and architecture</li>
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/configdata</code> — the published version, the updater&#39;s file list, and the bundled interpreter</li>
+        </ul>
+        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-lang="zh">
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/MacWave</code> —— 程序本体</li>
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/infosource</code> —— 软件包索引，每个软件包、每种架构各一个目录</li>
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/configdata</code> —— 已发布的版本、自更新的文件清单、自带的解释器</li>
+        </ul>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Source Layout</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">源码结构</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Each command is a module with a single handler, dispatched from <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">lib/wave.py</code>. All Mach-O rewriting is confined to <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">surfboard/</code>.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            每个命令都是一个模块，各自只有一个处理函数，由 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">lib/wave.py</code> 统一分派。所有 Mach-O 改写都集中在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">surfboard/</code>。
+        </p>
+        <div class="code-container">
+            <pre>
+lib/            entry point, help, configuration, self-update
+pkg/            install, upgrade, uninstall, links, version parsing
+surfboard/      dependency resolution, extraction, Mach-O relocation
+scripts/        tests and data audits
+            </pre>
+        </div>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Adding a Package</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">收录一个软件包</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Records live in <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">infosource</code> under <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pkg/pkginfo_&lt;arch&gt;/&lt;name&gt;/</code>, in two forms:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            记录放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">infosource</code> 的 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pkg/pkginfo_&lt;架构&gt;/&lt;软件包名&gt;/</code> 下，分两类文件：
+        </p>
+        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-lang="en">
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">_&lt;name&gt;@common</code> — metadata shared by every version: <code>des</code>, <code>hom</code>, <code>lic</code>, <code>aut</code>, and <code>bin_name</code>, the name the binary is installed as</li>
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">_&lt;name&gt;@&lt;version&gt;</code> — one file per version, carrying <code>url</code> and <code>sha256</code>, plus <code>deps</code> when the package needs libraries MacWave must install as well</li>
+        </ul>
+        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-lang="zh">
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">_&lt;软件包名&gt;@common</code> —— 所有版本共用的元数据：<code>des</code>、<code>hom</code>、<code>lic</code>、<code>aut</code>，以及 <code>bin_name</code>，即二进制文件安装后的名字</li>
+            <li><code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">_&lt;软件包名&gt;@&lt;版本号&gt;</code> —— 每个版本一个文件，包含 <code>url</code> 与 <code>sha256</code>；当该软件包需要 MacWave 一并安装的库时，再加上 <code>deps</code></li>
+        </ul>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">sha256</code> is mandatory. A record without it is rejected rather than installed with a warning. Dependencies are written as <code>name@version</code> and are reference counted, so removing one package does not remove a library another still uses.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">sha256</code> 是必填项。缺少它的记录会被拒绝安装，而不是给出警告后照常安装。依赖写成 <code>name@version</code> 并采用引用计数，因此移除一个软件包不会连带删掉其他软件包仍在使用的库。
+        </p>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Running the Tests</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">运行测试</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Each script runs end to end and reports PASS or FAIL:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            每个脚本都会完整跑一遍，结果以 PASS 或 FAIL 呈现：
+        </p>
+        <div class="code-container">
+            <pre>
+bash scripts/configpath_test.sh    configuration directory resolution
+bash scripts/format_test.sh        every supported archive format
+bash scripts/deps_test.sh          dependency install and cascade removal
+bash scripts/link_test.sh          versionless links
+bash scripts/upgrade_test.sh       wave upgrade, offline
+bash scripts/selfupdate_test.sh    self-update; ends by updating for real
+python3 scripts/random_test.py     randomised end-to-end regression, needs network
+python3 scripts/audit_deps.py data audit the index against installed libraries
+            </pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">random_test.py --dry-run</code> selects packages and prints the plan without touching the network.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">random_test.py --dry-run</code> 只挑选软件包并打印计划，不访问网络。
+        </p>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="en">Contributing</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 28px; margin-bottom: 12px;" data-lang="zh">参与贡献</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Every branch is merged through a pull request with at least one approval; force pushes and branch deletion are blocked. Run the scripts above before opening one, and state which you ran. A bug report is most useful with the output of <code>wave --version</code>, <code>sw_vers</code>, and <code>uname -m</code>.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            所有分支都经由 PR 合入，且至少需要一次批准；禁止强制推送与删除分支。提交 PR 前请先运行上述脚本，并说明运行了哪些。报告缺陷时，请附上 <code>wave --version</code>、<code>sw_vers</code> 与 <code>uname -m</code> 的输出。
+        </p>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">License</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">许可证</h2>
