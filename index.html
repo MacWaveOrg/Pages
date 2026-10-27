@@ -489,12 +489,12 @@
     <p class="tagline" style="max-width:800px;" data-lang="zh">面向 macOS 的包管理器，用于分发开发者日常依赖的命令行工具。</p>
 
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="en">
-        <span class="v-line">Latest Version : 3.2.0</span>
-        <span class="v-line">Release on 2026-10-24</span>
+        <span class="v-line">Latest Version : 3.2.1</span>
+        <span class="v-line">Release on 2026-10-27</span>
     </div>
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="zh">
-        <span class="v-line">最新版本 : 3.2.0</span>
-        <span class="v-line">发布于 2026-10-24</span>
+        <span class="v-line">最新版本 : 3.2.1</span>
+        <span class="v-line">发布于 2026-10-27</span>
     </div>
 
     <div style="margin-top: -14px; margin-bottom: 28px;">
@@ -781,7 +781,10 @@ Global Flags (can be used with any command):
 Special Flags:
 wave install &lt;pkgname&gt;@&lt;version&gt;   Download certain version(s) of a package
 wave upgrade &lt;pkgname&gt;             Take a package to the latest version
-    --remove-old-version, --rov    Remove versions older than the one just installed
+    --remove-old-version           Remove versions older than the one just installed
+    --remove-old-versions          Same as --remove-old-version
+    --rov                          Same as --remove-old-version
+    -X                             Same as --remove-old-version
     --unlink                       Leave the unversioned link alone (install / uninstall)
     --all, -a                      Apply to every installed package (link / unlink / linkquery)
 
