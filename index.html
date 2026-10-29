@@ -763,6 +763,7 @@ Commands:
   link        Link installed packages without a version number
   unlink      Remove those unversioned links
   linkquery   Show which version an unversioned link points to
+  mirror      Show which address each kind of data is fetched from
 
 Flags:
   -h, --help              Show help for any command
@@ -796,6 +797,14 @@ Unversioned Links:
 wave link &lt;name&gt;                   Link a package to its highest installed version
 wave linkquery &lt;name&gt;              Show what &lt;name&gt; is linked to (e.g. 🌊 ffmpeg@9.0)
 wave unlink &lt;name&gt;                 Remove that link
+
+Mirror Configuration:
+wave mirror                        Show the address each source is fetched from
+    --json / --yaml / --toml       Print the same information in that format
+    --raw                          Print ready-to-paste export lines
+    --only-set                     With --raw: export only the sources you overrode
+    --show-password                Print passwords instead of six asterisks
+    --hide-user                    Mask the user name too
 
 Uninstalling a version re-points the link to the next highest one, and removes
 the link when no version is left. uninstall --unlink keeps the link as-is, and
