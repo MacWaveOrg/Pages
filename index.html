@@ -783,7 +783,9 @@ Global Flags (can be used with any command):
   --proxy &lt;string&gt;              Specify an HTTP/HTTPS proxy (e.g., http://127.0.0.1:8080)
   --skip-ssl                    Skip SSL certificate verification (insecure)
   --limit-rate &lt;string&gt;         Limit download speed (e.g., 200K, 1M, 5M)
-  --max-time &lt;string&gt;           Timeout for each request (e.g., 40s, 1min, 1min20s, 2h)
+  --max-time &lt;string&gt;           Total time limit for each request (e.g., 40s, 1min, 1min20s, 2h)
+  --connect-timeout &lt;string&gt;    Give up if the TCP/TLS handshake takes longer (like curl)
+  --content-time &lt;string&gt;       Give up if the server sends nothing for this long
   --ver &lt;string&gt;                Install a specific version (install only; --ver=1.0 works too)
   --install-from-source         Download from the upstream URL instead of MacWave's own store
   --install-python-from-source  Same, for the bundled Python (install / selfupdate)
