@@ -491,12 +491,12 @@
     <p class="tagline" style="max-width:800px;" data-lang="zh">面向 macOS 的包管理器，用于分发开发者日常依赖的命令行工具。</p>
 
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="en">
-        <span class="v-line">Latest Version : 4.1.3</span>
-        <span class="v-line">Release on 2026-10-29</span>
+        <span class="v-line">Latest Version : 4.1.4</span>
+        <span class="v-line">Release on 2026-10-31</span>
     </div>
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="zh">
-        <span class="v-line">最新版本 : 4.1.3</span>
-        <span class="v-line">发布于 2026-10-29</span>
+        <span class="v-line">最新版本 : 4.1.4</span>
+        <span class="v-line">发布于 2026-10-31</span>
     </div>
 
     <div style="margin-top: -14px; margin-bottom: 28px;">
@@ -755,41 +755,50 @@
   wave &lt;command&gt; [package] [flags]
 
 Commands:
-  install     Install a package (Latest Version)
+  install     Install a package (latest version)
   upgrade     Install a package at the latest version
   uninstall   Uninstall a package
   list        List installed packages
   search      Search for a package in the index
   info        Display detailed information about a package
-  selfupdate  Update MacWave itself
+  selfupdate  Update MacWave itself to the latest version
   link        Link installed packages without a version number
   unlink      Remove those unversioned links
   linkquery   Show which version an unversioned link points to
-  mirror      Show which address each kind of data is fetched from
+  mirror      Show which addresses packages are fetched from
+  latest      Show which packages have a newer version available
 
 Flags:
-  -h, --help              Show help for any command
-  -V, --version           Print version information
-  -v, --verbose           Enable verbose output (show detailed logs)
+  -h, --help     Show help for any command
+  -V, --version  Print version information
+  -v, --verbose  Enable verbose output (show detailed logs)
 
 Global Flags (can be used with any command):
-  -C, --continue          Resume interrupted downloads (like curl -C -)
-      --proxy string      Specify an HTTP/HTTPS proxy (e.g., http://127.0.0.1:8080)
-      --skip-ssl          Skip SSL certificate verification (insecure)
-      --limit-rate string Limit download speed (e.g., 200K, 1M, 5M)
-      --max-time string   Timeout for each request, for install and selfupdate
-                          (e.g., 40s, 1min, 1min20s, 2h; bare numbers are seconds)
-      --ver string        Install a specific version (install only, --ver=1.0 works too)
+  -s, --silent                  Print nothing at all; the exit code is the signal
+                                (beats -v; install / upgrade / uninstall / link /
+                                unlink / selfupdate)
+  -S, --show-error              With -s, still print the error when a command fails
+  -C, --continue                Resume interrupted downloads (like curl -C -)
+  --proxy &lt;string&gt;              Specify an HTTP/HTTPS proxy (e.g., http://127.0.0.1:8080)
+  --skip-ssl                    Skip SSL certificate verification (insecure)
+  --limit-rate &lt;string&gt;         Limit download speed (e.g., 200K, 1M, 5M)
+  --max-time &lt;string&gt;           Timeout for each request (e.g., 40s, 1min, 1min20s, 2h)
+  --ver &lt;string&gt;                Install a specific version (install only; --ver=1.0 works too)
+  --install-from-source         Download from the upstream URL instead of MacWave's own store
+  --install-python-from-source  Same, for the bundled Python (install / selfupdate)
+  MACWAVE_PIP_INDEX             Env var. pip index for the Python deps; default pypi.org/simple
 
 Special Flags:
-wave install &lt;pkgname&gt;@&lt;version&gt;   Download certain version(s) of a package
-wave upgrade &lt;pkgname&gt;             Take a package to the latest version
-    --remove-old-version           Remove versions older than the one just installed
-    --remove-old-versions          Same as --remove-old-version
-    --rov                          Same as --remove-old-version
-    -X                             Same as --remove-old-version
-    --unlink                       Leave the unversioned link alone (install / uninstall)
-    --all, -a                      Apply to every installed package (link / unlink / linkquery)
+  wave install &lt;pkgname&gt;@&lt;version&gt;  Download certain version(s) of a package
+  wave upgrade &lt;pkgname&gt;            Take a package to the latest version
+  wave upgrade --all, -a            Take every installed package to the latest version
+      --remove-old-version          Remove versions older than the one just installed
+      --remove-old-versions         Same as --remove-old-version
+      --rov                         Same as --remove-old-version
+      -X                            Same as --remove-old-version
+      --unlink                      Leave the unversioned link alone (install / uninstall)
+      --all, -a                     Apply to every installed package
+                                    (upgrade / link / unlink / linkquery)
 
 Self Update:
 wave selfupdate                    Update MacWave itself
@@ -799,6 +808,10 @@ Unversioned Links:
 wave link &lt;name&gt;                   Link a package to its highest installed version
 wave linkquery &lt;name&gt;              Show what &lt;name&gt; is linked to (e.g. 🌊 ffmpeg@9.0)
 wave unlink &lt;name&gt;                 Remove that link
+
+Latest Versions:
+wave latest &lt;name&gt;                 Show whether a package has a newer version
+wave latest --all, -a              Same, for every installed package
 
 Mirror Configuration:
 wave mirror                        Show the address each source is fetched from
