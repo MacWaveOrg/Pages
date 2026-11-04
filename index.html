@@ -396,10 +396,11 @@
             }
         }
 
-        /* ===== 安装软件包：宽屏左录屏、右命令与提示，窄屏上下叠 =====
-           两栏照 brew.sh 的写法：grid + repeat(2, minmax(0, 1fr))，
-           每格 min-width 归零，否则 pre 里的长命令会把格子撑开。 */
-        .pkg-install {
+        /* ===== 两栏：左侧录屏、右侧文字，窄屏叠成单列 =====
+           写法同 brew.sh：grid + repeat(2, minmax(0, 1fr))，每格 min-width
+           归零，否则 pre 里的长命令会把格子撑开，两栏就不等宽了。
+           「安装软件包」与「安装 MacWave」共用这一套。 */
+        .split2 {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 20px 30px;
@@ -407,11 +408,11 @@
             margin: 18px 0 24px;
         }
 
-        .pkg-install > * { min-width: 0; }
+        .split2 > * { min-width: 0; }
 
-        .pkg-demo { margin: 0; }
+        .split2 figure { margin: 0; }
 
-        .pkg-demo img {
+        .split2 figure img {
             display: block;
             width: 100%;
             height: auto;
@@ -419,35 +420,14 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
-        .pkg-install-side > p:first-child { margin-top: 0; }
-        .pkg-install-side > .code-container { margin-bottom: 14px; }
+        .split2-side > :first-child { margin-top: 0; }
+        .split2-side > :last-child { margin-bottom: 0; }
 
         @media (max-width: 900px) {
-            .pkg-install {
+            .split2 {
                 grid-template-columns: 1fr;
                 gap: 16px;
-                align-items: start;
             }
-        }
-
-        /* ===== 安装 MacWave 的录屏：命令下方、居中，宽度与「安装软件包」的
-           录屏一致 —— 那边是两栏网格的一格，即 (容器宽 - 30) / 2。
-           窄屏叠成单列时跟着满宽。 ===== */
-        .install-record {
-            width: calc(50% - 15px);
-            margin: 20px auto 26px;
-        }
-
-        .install-record img {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-        }
-
-        @media (max-width: 900px) {
-            .install-record { width: 100%; }
         }
 
         /* ===== 新增：环境要求粗体样式 ===== */
@@ -623,26 +603,29 @@
             （如果你使用的是 bash 而非 zsh，请运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">source ~/.bashrc</code>）
         </p>
 
-        <figure class="install-record">
-            <img src="images/demo2.gif" width="780" height="536" loading="lazy"
-                 alt="Running the MacWave installer: it picks an install directory, fetches the update commands and the bundled Python environment, and asks for the licence once.">
-        </figure>
+        <div class="split2">
+            <figure>
+                <img src="images/demo2.gif" width="780" height="536" loading="lazy"
+                     alt="Running the MacWave installer: it picks an install directory, fetches the update commands and the bundled Python environment, and asks for the licence once.">
+            </figure>
+            <div class="split2-side">
+                <p class="env-requirements" data-lang="en">
+                    Requirements: macOS Monterey 12 or later, Xcode Command Line Tools.<br>
+                    You do not need to install Python — MacWave bundles its own interpreter.
+                </p>
+                <p class="env-requirements" data-lang="zh">
+                    环境要求：macOS Monterey 12 及以上、Xcode Command Line Tools。<br>
+                    你不需要自己安装 Python —— MacWave 自带解释器。
+                </p>
 
-        <p class="env-requirements" data-lang="en">
-            Requirements: macOS Monterey 12 or later, Xcode Command Line Tools.<br>
-            You do not need to install Python — MacWave bundles its own interpreter.
-        </p>
-        <p class="env-requirements" data-lang="zh">
-            环境要求：macOS Monterey 12 及以上、Xcode Command Line Tools。<br>
-            你不需要自己安装 Python —— MacWave 自带解释器。
-        </p>
-
-        <p class="env-requirements" data-lang="en">
-            This repository holds source, not an installation. Running <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> from inside a clone, or adding directories from the clone to <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>, fails by design.
-        </p>
-        <p class="env-requirements" data-lang="zh">
-            本仓库存放的是源码，不是安装结果。在 clone 里运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code>、或把 clone 中的目录加入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>，都会按设计失败。
-        </p>
+                <p class="env-requirements" data-lang="en">
+                    This repository holds source, not an installation. Running <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> from inside a clone, or adding directories from the clone to <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>, fails by design.
+                </p>
+                <p class="env-requirements" data-lang="zh">
+                    本仓库存放的是源码，不是安装结果。在 clone 里运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code>、或把 clone 中的目录加入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>，都会按设计失败。
+                </p>
+            </div>
+        </div>
 
         <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="en">Unattended install</h3>
         <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="zh">无人值守安装</h3>
@@ -739,12 +722,12 @@
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Install Packages</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">安装软件包</h2>
-        <div class="pkg-install">
-            <figure class="pkg-demo">
+        <div class="split2">
+            <figure>
                 <img src="images/demo1.gif" width="780" height="536" loading="lazy"
                      alt="wave install ffmpeg: version info is fetched, the SHA256 is verified, the package is extracted and checked, and ffmpeg@9.0.2 is installed and linked.">
             </figure>
-            <div class="pkg-install-side">
+            <div class="split2-side">
                 <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
                     One command downloads, verifies, unpacks and links a package — and checks its SHA256 before anything is installed:
                 </p>
