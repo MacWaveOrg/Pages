@@ -381,45 +381,56 @@
             }
         }
 
-        /* ===== 强制 Demo 图片居中且与代码块等宽 ===== */
-        .demo-pictures {
-            margin-top: 10px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
+        /* ===== 安装软件包：宽屏左录屏、右命令与提示，窄屏上下叠 =====
+           两栏照 brew.sh 的写法：grid + repeat(2, minmax(0, 1fr))，
+           每格 min-width 归零，否则 pre 里的长命令会把格子撑开。 */
+        .pkg-install {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px 30px;
+            align-items: start;
+            margin: 18px 0 24px;
         }
 
-        .demo-pictures p {
-            width: 100%;
-            margin: 16px 0;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            box-sizing: border-box;
-        }
+        .pkg-install > * { min-width: 0; }
 
-        .demo-pictures img {
+        .pkg-demo { margin: 0; }
+
+        .pkg-demo img {
             display: block;
-            width: 100% !important;
-            max-width: 100% !important;
+            width: 100%;
             height: auto;
-            margin: 0 auto !important;
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            border: 1px solid #2a3a5a;
-            box-sizing: border-box;
-            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
-        @media (max-width: 690.98px) {
-            .demo-pictures img {
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 auto !important;
+        .pkg-install-side > p:first-child { margin-top: 0; }
+        .pkg-install-side > .code-container { margin-bottom: 14px; }
+
+        @media (max-width: 900px) {
+            .pkg-install {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                align-items: start;
             }
+        }
+
+        /* ===== 安装 MacWave 的录屏：命令下方，居中，窄屏满宽 ===== */
+        .install-record {
+            width: 75%;
+            margin: 20px auto 26px;
+        }
+
+        .install-record img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (max-width: 900px) {
+            .install-record { width: 100%; }
         }
 
         /* ===== 新增：环境要求粗体样式 ===== */
@@ -595,6 +606,11 @@
             （如果你使用的是 bash 而非 zsh，请运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">source ~/.bashrc</code>）
         </p>
 
+        <figure class="install-record">
+            <img src="images/demo2.gif" width="780" height="536" loading="lazy"
+                 alt="Running the MacWave installer: it picks an install directory, fetches the update commands and the bundled Python environment, and asks for the licence once.">
+        </figure>
+
         <p class="env-requirements" data-lang="en">
             Requirements: macOS Monterey 12 or later, Xcode Command Line Tools.<br>
             You do not need to install Python — MacWave bundles its own interpreter.
@@ -702,6 +718,38 @@
         <div class="code-container">
             <pre>1. /opt/macwave_config          system-level install (needs sudo)
 2. ~/.config/macwave_config     user-level install (no sudo)</pre>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Install Packages</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">安装软件包</h2>
+        <div class="pkg-install">
+            <figure class="pkg-demo">
+                <img src="images/demo1.gif" width="780" height="536" loading="lazy"
+                     alt="wave install ffmpeg: version info is fetched, the SHA256 is verified, the package is extracted and checked, and ffmpeg@9.0.2 is installed and linked.">
+            </figure>
+            <div class="pkg-install-side">
+                <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+                    One command downloads, verifies, unpacks and links a package — and checks its SHA256 before anything is installed:
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+                    一条命令完成下载、校验、解包与链接，装之前先核对 SHA256：
+                </p>
+                <div class="code-container has-copy-btn">
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <div class="copy-icon">
+                            <div class="square-back"></div>
+                            <div class="square-front"></div>
+                        </div>
+                    </button>
+                    <pre><span class="code-dollar">$</span> wave install ffmpeg</pre>
+                </div>
+                <p style="font-size: 1.05rem; line-height: 1.6; opacity: 0.85;" data-lang="en">
+                    Not sure of the name? <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave search &lt;keyword&gt;</code> searches the index and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave info &lt;package&gt;</code> shows the detail. There is no silent replacement: the version you ask for is the version you get, so pinning is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install ffmpeg@6.0</code>.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.6; opacity: 0.85;" data-lang="zh">
+                    不确定包名？<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave search &lt;关键字&gt;</code> 在索引里搜，<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave info &lt;包名&gt;</code> 看详情。不会替你换版本 —— 你要哪个就是哪个，需要固定版本就写 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install ffmpeg@6.0</code>。
+                </p>
+            </div>
         </div>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Run Packages</h2>
@@ -828,14 +876,6 @@ Uninstalling a version re-points the link to the next highest one, and removes
 the link when no version is left. uninstall --unlink keeps the link as-is, and
 refuses to run when that would leave the link pointing at the version you are
 removing.</pre>
-
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Demo Pictures</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">演示图片</h2>
-        <div class="demo-pictures">
-            <p>
-                <img src="images/demo1.png" alt="demo1">
-            </p>
-        </div>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Mirrors</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">镜像站</h2>
