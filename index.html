@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>MacWave</title>
     <style>
-        /* 与 Finx 一致：整页的左右留白只由一个变量决定，窄屏降到 12px。
-           原来是 body 的 20px 加上 .content-section 自己的 20px，手机上一共
-           内缩 80px，正文只剩 310px 宽。 */
+        /* 与 Finx 一致：整页的左右留白只由一个变量决定，各档都是 20px。
+           正文区自己还带 20px（见 .content-section 的内联 padding），所以手机上
+           正文左右各缩进 40px —— 这与 2026-08-07 到 11-04 一直是 20px+20px 的
+           样子相同。中间一度把 --gutter 压到 12px 并去掉正文那层 padding，
+           手机上正文直接贴到屏幕边缘，所以恢复成两层都留。 */
         :root {
             --gutter: 20px;
             --column: 900px;
@@ -344,10 +346,6 @@
         }
 
         /* ========== 手机端 ========== */
-        @media (max-width: 640px) {
-            :root { --gutter: 12px; }
-        }
-
         @media (max-width: 690.98px) {
             .logo-img.logo-1,
             .logo-img.logo-2 {
@@ -529,7 +527,7 @@
     <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;" data-lang="zh">（点击查看）</div>
     <div style="margin-top: 1em;"></div>
 
-    <div class="content-section" style="padding: 20px 0; color: #ffffff; text-align: left;">
+    <div class="content-section" style="padding: 20px; color: #ffffff; text-align: left;">
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="en">About MacWave</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="zh">关于MacWave</h2>
