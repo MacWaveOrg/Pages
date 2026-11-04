@@ -755,19 +755,28 @@
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Run Packages</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">运行软件包</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            To run a package, run the following commands in your terminal:
+            Once installed, a package is on your <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>. Just type its name:
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            要运行某个软件包，请在终端中运行以下命令：
+            装好之后软件包就在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code> 里，直接敲名字即可：
+        </p>
+        <div class="code-container">
+            <pre><span class="code-dollar">$</span> {package_name}</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install</code> creates that name for you, so there is no extra step. When several versions are installed and you want one of them specifically, add the version:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            这条不带版本号的名字是 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install</code> 一并建好的，无需额外操作。装了多个版本、想指定其中一个时，再带上版本号：
         </p>
         <div class="code-container">
             <pre><span class="code-dollar">$</span> {package_name}@{version}</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            Use the versioned name <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}@{version}</code>, or run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> once and then just type <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}</code>.
+            If you installed with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--unlink</code>, that name was skipped on purpose — run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> once to bring it back.
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            使用带版本号的名称 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}@{version}</code>，或先运行一次 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code>，之后直接输入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">{package_name}</code> 即可。
+            如果你当初是用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--unlink</code> 装的，那个名字是特意跳过的 —— 运行一次 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> 就能补回来。
         </p>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Symlink Management</h2>
