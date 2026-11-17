@@ -472,6 +472,121 @@
             color: #0a1b3f;
         }
 
+
+        /* ---- 用户协议查看 ----
+         *
+         * 正文是 agreement/ 下的两个纯文本文件（中英各一份），不是这里的 HTML：
+         * 页面因此不再背着 12 KB 静态文本，正文也能被终端 curl 下来读。
+         */
+        .lic-link {
+            background: none;
+            border: none;
+            padding: 0 2px;
+            font: inherit;
+            color: #ffffff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .lic-link:hover {
+            opacity: 0.7;
+        }
+
+        .disclaimer a {
+            color: #ffffff;
+        }
+
+        .lic-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            z-index: 1000;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .lic-overlay.open {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lic-dialog {
+            background: #0f1a30;
+            border: 1px solid #4a90e2;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 760px;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .lic-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.35);
+        }
+
+        .lic-head h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .lic-close {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.6rem;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .lic-close:hover {
+            opacity: 1;
+        }
+
+        .lic-body {
+            margin: 0;
+            padding: 18px;
+            overflow: auto;
+            word-break: break-word;
+            font-size: 0.82rem;
+            line-height: 1.65;
+        }
+
+        .lic-body h4 {
+            margin: 0 0 12px;
+            font-size: 0.95rem;
+        }
+
+        .lic-body p {
+            margin: 0 0 10px;
+        }
+
+        .lic-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .lic-note {
+            margin: 0;
+            padding: 10px 18px 14px;
+            font-size: 0.75rem;
+            opacity: 0.65;
+            border-top: 1px solid rgba(74, 144, 226, 0.25);
+        }
+
+        .lic-note a {
+            color: #ffffff;
+            margin-left: 8px;
+        }
+
         /* 只显示当前语言的内容 */
         .lang-zh [data-lang="en"],
         .lang-en [data-lang="zh"] {
@@ -979,84 +1094,42 @@ zoxide           by Ajeet D'Souza
         <div class="contact-hint" data-lang="zh">点击链接即可打开。</div>
     </div>
 
-    <div class="disclaimer-container">
+        <!-- 用户协议：正文不在这里，见 agreement/agreement.md（英文）与
+         agreement/agreement-zh.md（中文）。点下面那个按钮就地阅读；
+         没有 JS 时给一条直链。正文单独成文件有两个好处：页面不再背着 12 KB
+         的静态文本，而且终端可以 curl 直接读到 —— 安装器与自更新都指到这里。 -->
+    <div class="disclaimer-container" id="agreement">
         <div class="disclaimer">
-            <div data-lang="en">
-            <p>MacWave (the software) is developed by the MacWave Team. Users should read all agreements in full and agree before using MacWave and its software packages. Otherwise, please do not use MacWave or its software packages.</p>
-            <p>1. Users should carefully read the agreement and possible negative impacts before operation, and bear the consequences themselves. Using MacWave means that you have agreed to the above conditions. The MacWave Team is not responsible for losses accidentally caused to users by MacWave or its software packages.</p>
-            <p>2. This agreement may be updated, and we will notify you each time it is updated. If it is updated and you do not agree to the updated agreement, you may delete MacWave (for deletion methods, please refer to the official website or official tutorial), give up updating, or keep using the version whose agreement you have agreed to.</p>
-            <p>3. MacWave (especially beta versions) may affect you due to its own code defects, security issues, etc. You should be aware of and accept this risk, otherwise please do not use it. The MacWave Team is not responsible for losses caused to your devices, etc.</p>
-            <p>4. MacWave only provides the upstream software packages themselves. The MacWave Team is not responsible for losses caused to you by security vulnerabilities, malicious code, etc. of the software packages themselves. If you violate the corresponding software package agreements, the MacWave Team is not responsible.</p>
-            <p>5. The software packages distributed by MacWave are for legitimate purposes such as learning, research and lawful use only. They are prohibited for cracking, attacks, or other behaviors. If losses are caused by improper use, the MacWave Team is not responsible.</p>
-            <p>6. Please be sure to download the official software from the official website. If you download "MacWave" from unofficial channels and suffer losses, the MacWave Team is not responsible.</p>
-            <p>7. MacWave is completely free. Please do not trust any individuals or claims stating that MacWave charges a fee. If you suffer losses as a result, the MacWave Team is not responsible.</p>
-            <p>8. The MacWave Team does not sell any products. Any messages or posts about paid MacWave products are counterfeit, and any individuals or platforms that sell MacWave are unofficial. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>9. The MacWave Team does not produce any physical products. Any physical products (such as books, comics, etc.) claiming to be related to the MacWave Team are counterfeit. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>10. The MacWave Team only produces code, not unrelated products. Any e-books, audio-visual works, etc. related to MacWave are counterfeit. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>11. The MacWave Team's consultation and feedback platforms are completely free, and all feedback is processed equally in order. Any individuals or organizations claiming priority access to consultation or replies, especially those charging fees, are unofficial. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>12. MacWave does not use subscriptions, one-time purchases, or in-app purchases. Any individuals or organizations claiming to help obtain in-app purchases, especially those charging fees, are unofficial. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>13. MacWave's source code is fully open. Any individuals or organizations claiming to provide core code, especially those charging fees, are unofficial. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>14. MacWave does not use a membership system. Any individuals or organizations claiming to offer memberships, especially those charging fees, are unofficial. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>15. There is only one official version of MacWave, and it is publicly available. There are no officially authorized "Personal Edition", "Enterprise Edition", "Custom Edition" or similar variants; any such claims are counterfeit. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>16. The only official website is <strong>https://macwave.org</strong>. Any other websites are not official. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>17. Using MacWave does not require registration, nor does it require an activation code, etc. Any individuals or organizations claiming to help register accounts, provide accounts, activation codes, etc., especially those charging fees, are unofficial. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>18. Downloading MacWave may consume network data. You should be aware of this and handle it properly; otherwise, the MacWave Team is not responsible for losses caused by this.</p>
-            <p>19. Contacting MacWave and the MacWave Team through official channels or sending emails may consume network data. You should be aware of this and handle it properly; otherwise, the MacWave Team is not responsible for losses caused by this.</p>
-            <p>20. The official accounts of MacWave and the MacWave Team are only registered on Twitter (X) and GitHub. Any accounts on other platforms are counterfeit. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>21. Please contact us using the contact information provided on the official website. Do not trust any other contact information provided by any individual or organization. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>22. You should use MacWave and its software packages in accordance with official guidelines. The MacWave Team is not responsible for losses caused by not following the guidelines, not reading the guidelines, or operational errors.</p>
-            <p>23. You should download MacWave on eligible devices. For specific requirements, please refer to the official website. If losses are caused by violating this, the MacWave Team is not responsible.</p>
-            <p>24. You should confirm your system environment, device model, etc., and verify from reliable sources (such as official documentation of other software) whether there are conflicts. If losses are caused by software conflicts, the MacWave Team is not responsible.</p>
-            <p>25. You may only run MacWave on your personal devices, unless you are authorized to do so. The MacWave Team is not responsible for losses caused by running MacWave on others' devices, public devices, or devices without the owner's authorization.</p>
-            <p>26. The MacWave Team is not responsible for losses caused to users by running MacWave due to defects of the operating system or virtual machine itself.</p>
-            <p>27. The MacWave Team is not responsible for losses caused by MacWave not running as expected due to unauthorized hardware modifications.</p>
-            <p>28. The MacWave Team is not responsible for losses caused by unofficial purposes.</p>
-            <p>29. You are allowed to privately redistribute MacWave and its software packages, modified versions, etc., but you must credit the original author and the official website, and clearly inform others that this version is a modified version. Distributing non-official products and software packages under descriptions such as "official version" is prohibited. Unofficial versions may also cause losses. If you violate this agreement or cause losses, the MacWave Team is not responsible.</p>
-            <p>30. Without the permission of the original author (or team), you shall not misuse, reuse, register trademarks, or otherwise occupy the MacWave Team's or MacWave's icon and its name, or occupy them in a way that may sufficiently associate users with them.</p>
-            <p>31. The MacWave Team is not responsible for losses caused by incomplete downloads of executable scripts due to network fluctuations, etc.</p>
-            <p>32. The MacWave Team is not responsible for losses suffered by users due to force majeure.</p>
-            <p>33. The MacWave Team is not responsible for any problems caused by unauthenticated MacWave mirrors, including but not limited to service interruption, service suspension, or software packages containing malicious code.</p>
-            <p>34. MacWave has no cooperation with any company or profit-making organization. Any claims of cooperation with the MacWave Team by companies or profit-making organizations are counterfeit. The MacWave Team is not responsible for losses caused by this.</p>
-            <p>This agreement was updated on 2026-11-17, MacWave 4.4.0. This agreement takes effect once any of the conditions above is met.</p>
+            <p data-lang="en">
+                Using MacWave means you accept the
+                <button class="lic-link" type="button" onclick="openAgreement()">User Agreement</button>
+                (last updated 2026-11-17, MacWave 4.4.0). Read it in full before using MacWave or
+                any of its software packages; if you do not accept it, do not use them.
+            </p>
+            <p data-lang="zh">
+                使用 MacWave 即表示你接受<button class="lic-link" type="button" onclick="openAgreement()">用户协议</button>（更新于 2026-11-17，MacWave 4.4.0）。使用本软件及其软件包前请完整读一遍；不同意就不要使用。
+            </p>
+            <noscript>
+                <p>
+                    <a href="agreement/agreement.md">User Agreement (English)</a> ·
+                    <a href="agreement/agreement-zh.md">用户协议（中文）</a>
+                </p>
+            </noscript>
+        </div>
+    </div>
+
+    <div class="lic-overlay" id="lic-overlay" onclick="if (event.target === this) closeAgreement()">
+        <div class="lic-dialog" role="dialog" aria-modal="true" aria-labelledby="lic-title">
+            <div class="lic-head">
+                <h3 id="lic-title">User Agreement</h3>
+                <button class="lic-close" type="button" onclick="closeAgreement()" aria-label="Close">×</button>
             </div>
-            <div data-lang="zh">
-            <p>MacWave项目（软件）（以下简称“本软件”）由MacWave Team（以下简称“本团队”）开发。用户（以下简称“你”）应完整阅读所有协议并同意后再使用本软件及其软件包，否则请勿使用</p>
-            <p>1. 你在操作前应仔细阅读协议及可能造成的负面影响，并自行承担后果，使用本软件即视为已达成上述条件。本软件及其软件包由于意外对使用者造成损失的，本团队不承担责任</p>
-            <p>2. 本协议可能会有更新，每次更新协议时我们会提醒你。如有，且你不同意更新后的协议，你可以选择删除本软件（删除方法参见官网或官方教程）、放弃更新，或继续使用你已同意协议的版本</p>
-            <p>3. 本软件（尤其是beta版）可能由于自身代码缺陷、安全问题等对你造成影响，你应知悉并接受这一风险，否则请勿使用。对你的设备等造成损失的，本团队不承担责任</p>
-            <p>4. 本软件仅提供上游的软件包本身。软件包因本身的安全漏洞、恶意代码等对你造成损失的，本团队不承担责任。你如果违反相应软件包协议，本团队不承担责任</p>
-            <p>5. 本软件分发的软件包仅供学习、研究、合法使用等正当用途，禁止用于破解、攻击等行为。如果用于不正当用途造成损失，本团队不承担责任</p>
-            <p>6. 请务必从官方网站下载正版软件。如果你从非官方渠道下载的“本软件”造成损失，本团队不承担责任</p>
-            <p>7. 本软件完全免费，请勿相信任何宣称本软件收费的言论、人员等。因此蒙受损失的，本团队不承担责任</p>
-            <p>8. 本团队不出售任何产品。任何有关本软件收费产品的消息、帖子等均属伪造，任何出售本软件的个人、平台等均为非官方，由此造成损失的，本团队不承担责任</p>
-            <p>9. 本团队不产出任何实体产品。任何有关本团队的实体产品（如书籍、漫画等）均属伪造。由此造成损失的，本团队不承担责任</p>
-            <p>10. 本团队仅产出代码，不产出无关产品。任何有关本软件的电子书、音像制品等均属伪造。由此造成损失的，本团队不承担责任</p>
-            <p>11. 本团队的咨询和反馈平台完全免费，且按顺序平等处理所有反馈。任何宣称可以优先获得咨询、回复等，尤其是收取费用的个人或组织均为非官方。由此造成损失的，本团队不承担责任</p>
-            <p>12. 本软件不使用订阅制、买断制或内购，任何宣称可以帮忙获取内购的个人、组织等，尤其是收取费用的均为非官方。由此造成损失的，本团队不承担责任</p>
-            <p>13. 本软件的源代码全部公开。任何宣称可以提供核心代码的个人、组织等，尤其是收取费用的均为非官方。由此造成损失的，本团队不承担责任</p>
-            <p>14. 本软件不使用会员制。任何宣称可以申请会员的个人、组织等，尤其是收取费用的均为非官方。由此造成损失的，本团队不承担责任</p>
-            <p>15. 本软件只有一个官方版本，且公开。不存在官方授权认证的“个人版”“企业版”“定制版”或类似内容，如有，均属伪造。由此造成损失的，本团队不承担责任</p>
-            <p>16. 官方唯一网址为https://macwave.org，其他网址均不是官方网址。因此造成损失的，本团队不承担责任</p>
-            <p>17. 使用本软件无需注册，也没有激活码等。任何宣称可以帮忙注册账号、提供账号、激活码等的个人、组织等，尤其是收取费用的均为非官方。由此造成损失的，本团队不承担责任</p>
-            <p>18. 下载本软件可能会消耗网络流量，下载前须知悉并妥善处理，否则造成损失的，本团队不承担责任</p>
-            <p>19. 向本软件及本团队的官方渠道咨询、发送邮件等可能消耗网络流量，你须知悉并妥善处理，否则造成损失的，本团队不承担责任</p>
-            <p>20. 本软件及本团队的官方账号仅在Twitter (X)、GitHub注册，其他平台如有则均为仿造。因此造成损失的，本团队不承担责任</p>
-            <p>21. 请按照官网提供的联系方式联系我们，请勿相信任何个人或组织提供的其他联系方式。因此造成损失的，本团队不承担责任</p>
-            <p>22. 你应该按照官方指导使用本软件及其软件包。对于不按照指导、不阅读指导、操作失误等原因导致损失的，本团队不承担责任</p>
-            <p>23. 你应该在符合条件的设备下载本软件，具体要求参见官网。如有违反导致损失，本团队不承担责任</p>
-            <p>24. 你应该确认自己的系统环境、设备型号等信息，并从可信来源（如其他软件的官方说明等）确认是否冲突。如果由于软件冲突导致损失，本团队不承担责任</p>
-            <p>25. 你仅可在个人设备运行本软件，除非经过授权允许。在他人、公共设备或未经持有者授权的设备运行本软件造成损失的，本团队不承担责任</p>
-            <p>26. 由于操作系统或虚拟机自身缺陷导致你运行本软件造成损失的，本团队不承担责任</p>
-            <p>27. 由于私自改装硬件设备等原因导致本软件未按预期运行并导致损失的，本团队不承担责任</p>
-            <p>28. 用于非官方用途导致损失的，本团队不承担责任</p>
-            <p>29. 允许私自分发本软件及其软件包、修改版等，但必须注明原作者及官方网站，并明确告知其他人此版本为改版，禁止以“官方正版”等描述分发非正版产品及软件包。非官方版本可能也会造成损失。如果违反协议或造成损失等，本团队不承担责任</p>
-            <p>30. 未经原作者（或团队）允许，不得以滥用、复用、注册商标等方式侵占本团队或本软件的图标及其名称，或以可充分使用户联想、关联的方式侵占</p>
-            <p>31. 由于网络波动等原因导致软件可执行脚本下载不全并造成损失的，本团队不承担责任</p>
-            <p>32. 由于不可抗力因素导致你蒙受损失的，本团队不承担责任</p>
-            <p>33. 因非官方认证的镜像站产生的一切问题，包括但不限于服务中断、服务停止、含有恶意软件包等，本团队均不承担责任</p>
-            <p>34. 本软件未与任何公司或营利组织等产生合作，如有公司或营利组织等声称与本团队合作均属伪造。由此造成损失的，本团队不承担责任</p>
-            <p>本协议更新于2026-11-17，MacWave 4.4.0。满足上述任何一个条件，本协议即生效</p>
-            </div>
+            <div class="lic-body" id="lic-body">Loading…</div>
+            <p class="lic-note">
+                <span data-lang="zh">正文取自本站发布的协议文件，逐字一致。</span>
+                <span data-lang="en">Fetched verbatim from the agreement file published with this site.</span>
+                <a id="lic-src" href="agreement/agreement.md" target="_blank" rel="noopener"><span data-lang="zh">原文地址</span><span data-lang="en">Source</span></a>
+            </p>
         </div>
     </div>
 
@@ -1076,6 +1149,121 @@ zoxide           by Ajeet D'Souza
                 console.error('Failed to copy text: ', err);
             });
         }
+
+
+        /* ---- 用户协议查看 ----
+         *
+         * 直接取两个纯文本文件的原文，不读页面渲染结果 —— 读者要读的是协议本身。
+         *
+         * 顺序是「同源优先，远端兜底」：agreement/ 就是此刻部署的这一份，让它赢
+         * 才算数；只有它取不到（本地存了一份 HTML、或镜像站没同步该目录）才去
+         * 远端。raw.githubusercontent 在部分网络下会被直接重置，jsDelivr 有缓存
+         * 滞后，所以前者排在前面。
+         */
+        const AGREEMENT_SOURCES = [
+            'agreement/',
+            'https://raw.githubusercontent.com/MacWaveOrg/Pages/HEAD/agreement/',
+            'https://fastly.jsdelivr.net/gh/MacWaveOrg/Pages@main/agreement/'
+        ];
+
+        const AGREEMENT_ORIGIN_TIMEOUT = 4000;
+        const AGREEMENT_REMOTE_TIMEOUT = 8000;
+
+        let agreementTrigger = null;
+
+        function fetchAgreementFile(base, file, timeoutMs) {
+            const url = base + file;
+            const ctl = new AbortController();
+            const timer = setTimeout(function () { ctl.abort(); }, timeoutMs);
+            return fetch(url, { cache: 'no-cache', signal: ctl.signal })
+                .then(function (res) {
+                    clearTimeout(timer);
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.text().then(function (text) { return { text: text, url: url }; });
+                })
+                .catch(function (err) {
+                    clearTimeout(timer);
+                    throw err;
+                });
+        }
+
+        function loadAgreement(file) {
+            return fetchAgreementFile(AGREEMENT_SOURCES[0], file, AGREEMENT_ORIGIN_TIMEOUT)
+                .catch(function () {
+                    return Promise.any(AGREEMENT_SOURCES.slice(1).map(function (base) {
+                        return fetchAgreementFile(base, file, AGREEMENT_REMOTE_TIMEOUT);
+                    }));
+                });
+        }
+
+        /* 只认两种最简 Markdown：# 标题、空行分段。协议文件里就这两样，够用。
+         *
+         * 用 DOM 节点 + textContent 拼，不用 innerHTML：这份文本来自网络
+         * （同源失败时会去远端取），拼进页面就等于把一个远程文件当 HTML 执行。
+         */
+        function renderAgreement(text) {
+            const body = document.getElementById('lic-body');
+            body.textContent = '';
+            text.split(/\n[ \t]*\n/).forEach(function (block) {
+                const chunk = block.trim();
+                if (!chunk) return;
+                const heading = /^(#{1,3})\s+(.*)$/.exec(chunk);
+                if (heading) {
+                    const h = document.createElement('h4');
+                    h.textContent = heading[2];
+                    body.appendChild(h);
+                    return;
+                }
+                const para = document.createElement('p');
+                para.textContent = chunk.replace(/\n/g, ' ');
+                body.appendChild(para);
+            });
+        }
+
+        function openAgreement() {
+            const overlay = document.getElementById('lic-overlay');
+            const body = document.getElementById('lic-body');
+            const title = document.getElementById('lic-title');
+            const src = document.getElementById('lic-src');
+            const zh = document.documentElement.classList.contains('lang-zh');
+
+            agreementTrigger = document.activeElement;
+            title.textContent = zh ? '用户协议' : 'User Agreement';
+            src.href = AGREEMENT_SOURCES[0] + (zh ? 'agreement-zh.md' : 'agreement.md');
+            body.textContent = 'Loading…';
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            document.querySelector('.lic-close').focus();
+
+            /* 中文界面读中文版；中文版取不到就退回英文原文 —— 让读者对着一个
+               错误框，比读到英文更糟。 */
+            loadAgreement(zh ? 'agreement-zh.md' : 'agreement.md')
+                .catch(function () {
+                    if (!zh) throw new Error('none');
+                    return loadAgreement('agreement.md');
+                })
+                .then(function (hit) {
+                    renderAgreement(hit.text);
+                    src.href = hit.url;
+                })
+                .catch(function () {
+                    body.textContent =
+                        'Could not load the agreement from any mirror. ' +
+                        'Open the link below instead.';
+                });
+        }
+
+        function closeAgreement() {
+            const overlay = document.getElementById('lic-overlay');
+            if (!overlay || !overlay.classList.contains('open')) return;
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+            if (agreementTrigger && agreementTrigger.focus) agreementTrigger.focus();
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closeAgreement();
+        });
 
         // 语言切换
         function setLanguage(lang) {
