@@ -786,6 +786,54 @@
             <strong>注意参数的位置。</strong>写成 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">/bin/bash -c "$(curl ...)" --ci</code> 会让 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--ci</code> 变成脚本名（<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">$0</code>），从而被静默丢弃；安装器检测到这种用法时会给出警告。正确写法是把参数放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 之后。
         </p>
 
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Verify your download</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">校验下载</h2>
+
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+            Every release ships <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS</code> (the checksums of every asset) and
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS.asc</code> (its detached signature). Two commands confirm that the
+            bytes you have are the bytes we published:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            每个正式版都附 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS</code>（全部资产的校验值）与
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS.asc</code>（它的分离签名）。两条命令就能确认你手上的字节
+            就是发布时那一份：
+        </p>
+        <div class="code-container has-copy-btn">
+            <button class="copy-btn" onclick="copyCode(this)">
+                <div class="copy-icon">
+                    <div class="square-back"></div>
+                    <div class="square-front"></div>
+                </div>
+            </button>
+            <pre><span class="code-dollar">$</span> gpg --verify SHA256SUMS.asc SHA256SUMS
+<span class="code-dollar">$</span> shasum -a 256 -c SHA256SUMS</pre>
+        </div>
+
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0;" data-lang="en">
+            Signing key fingerprint:<br>
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">7220E218 395D E865 AACC 3391 67F1 4E52 D0E2 29FB</code><br>
+            Compare it against the copy in the repository (<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">Keys/README.md</code>) and the
+            release notes before trusting a key you imported.
+        </p>
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0;" data-lang="zh">
+            签名指纹：<br>
+            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">7220E218 395D E865 AACC 3391 67F1 4E52 D0E2 29FB</code><br>
+            信任一把导入的钥之前，先和仓库里的那份（<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">Keys/README.md</code>）以及发布
+            说明对一遍。
+        </p>
+
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="en">
+            MacWave checks its own updates too (the pointer file carries a signature and every downloaded
+            file carries a checksum). Since 4.4 that check is <strong>experimental</strong>: a mismatch warns
+            and continues, and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MACWAVE_STRICT_HASHES=1</code> turns it into a failure.
+        </p>
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="zh">
+            MacWave 自己更新时也会校验（版本指针带签名，每个下载的文件带校验值）。从 4.4 起这一步是
+            <strong>实验性</strong>的：不符只警告、继续安装，设 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MACWAVE_STRICT_HASHES=1</code>
+            才会当成失败。
+        </p>
+
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">uninstall.sh</code> is scriptable in the same way: <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> skips the confirmation, which otherwise needs a terminal (use <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> in CI):
         </p>
