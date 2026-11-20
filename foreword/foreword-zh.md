@@ -44,8 +44,8 @@ Linux： `/home/linuxwave/.linuxwave`
 
 **LinuxWave：**
 
-1. `/etc/linuxwave_config`        共享安装（需要 sudo）
-2. `~/.config/macwave_config`     单用户安装（无需 sudo）
+1. `/etc/linuxwave_config`         共享安装（需要 sudo）
+2. `~/.config/linuxwave_config`   单用户安装（无需 sudo）
 
 **警告：请不要随意修改配置文件 —— 这可能导致 `wave` 的某些行为异常或不符合预期！**
 
