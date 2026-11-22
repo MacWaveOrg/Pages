@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="lang-en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -26,7 +26,8 @@
             min-height: 100vh;
             text-align: center;
             margin: 0;
-            padding: 20px var(--gutter) 40px;
+            /* 顶部让出右上角固定语言按钮的位置 */
+            padding: 56px var(--gutter) 40px;
             box-sizing: border-box;
         }
 
@@ -140,6 +141,13 @@
         .code-dollar {
             color: #ffffff;
             font-weight: bold;
+        }
+
+        /* 正文中的行内代码（命令名、路径等） */
+        .ic {
+            background-color: #0f1a30;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
         .copy-btn {
@@ -470,34 +478,122 @@
             overflow-wrap: break-word;
         }
 
-        /* ========== 语言切换 ========== */
-        .lang-switch {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+        /* ========== 语言切换：右上角圆形按钮 + 展开菜单 ========== */
+        .lang {
+            position: fixed;
+            top: calc(10px + env(safe-area-inset-top));
+            right: 10px;
+            z-index: 900;
         }
 
-        .lang-btn {
-            background-color: rgba(255,255,255,0.25);
+        .lang__btn {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border: 1px solid rgba(74, 144, 226, 0.55);
+            border-radius: 50%;
+            background: rgba(15, 26, 48, 0.72);
             color: #ffffff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: background-color 0.18s ease, transform 0.18s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .lang-btn:hover {
-            background-color: rgba(255,255,255,0.4);
-            transform: translateY(-1px);
+        .lang__btn:hover {
+            background: rgba(74, 144, 226, 0.28);
         }
 
-        .lang-btn.active {
-            background-color: #ffffff;
+        .lang__btn:active {
+            transform: scale(0.94);
+        }
+
+        .lang__btn:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 2px;
+        }
+
+        .lang__menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 168px;
+            max-height: calc(100vh - 76px);
+            overflow-y: auto;
+            margin: 0;
+            padding: 6px;
+            list-style: none;
+            border: 0;
+            border-radius: 14px;
+            background: #ffffff;
             color: #0a1b3f;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25);
+            transform-origin: top right;
+            animation: lang-menu-pop 0.16s cubic-bezier(0.22, 0.75, 0.2, 1);
+        }
+
+        .lang__menu[hidden] {
+            display: none;
+        }
+
+        @keyframes lang-menu-pop {
+            from {
+                opacity: 0;
+                transform: translateY(-6px) scale(0.96);
+            }
+        }
+
+        .lang__item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 12px;
+            border: 0;
+            border-radius: 9px;
+            background: none;
+            font: inherit;
+            font-size: 0.95rem;
+            color: inherit;
+            text-align: left;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .lang__item:hover {
+            background: #eef3fb;
+        }
+
+        .lang__item:focus-visible {
+            outline: 2px solid #4a90e2;
+            outline-offset: -2px;
+        }
+
+        .lang__item[aria-checked="true"] {
+            color: #4a90e2;
+            font-weight: 600;
+            box-shadow: inset 0 0 0 2px #4a90e2;
+        }
+
+        .lang__check {
+            font-size: 0.8rem;
+            opacity: 0;
+        }
+
+        .lang__item[aria-checked="true"] .lang__check {
+            opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lang__menu {
+                animation: none;
+            }
+            .lang__btn {
+                transition: none;
+            }
         }
 
 
@@ -615,12 +711,6 @@
             margin-left: 8px;
         }
 
-        /* 只显示当前语言的内容 */
-        .lang-zh [data-lang="en"],
-        .lang-en [data-lang="zh"] {
-            display: none !important;
-        }
-
         /* 社区入口：胶囊按钮 */
         .btn-social {
             display: inline-flex;
@@ -662,10 +752,28 @@
 </head>
 <body>
 
-    <!-- 语言切换 -->
-    <div class="lang-switch">
-        <button class="lang-btn" type="button" data-lang-set="en" onclick="setLanguage('en')">English</button>
-        <button class="lang-btn" type="button" data-lang-set="zh" onclick="setLanguage('zh')">简体中文</button>
+    <!-- 语言切换：右上角圆形按钮，点开选择语言 -->
+    <div class="lang" id="lang">
+        <button class="lang__btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Language">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M3 12h18"></path>
+                <path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"></path>
+                <path d="M12 3a6 6 0 0 1 0 18a6 6 0 0 1 0-18z"></path>
+                <path d="M12 3a9 9 0 0 1 0 18a9 9 0 0 1 0-18z"></path>
+            </svg>
+        </button>
+        <ul class="lang__menu" id="langMenu" role="menu" hidden>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="zh-Hans">简体中文<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="zh-Hant">繁體中文<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="en">English<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="fr">Français<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="ja">日本語<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="ko">한국어<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="ru">Русский<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="de">Deutsch<span class="lang__check" aria-hidden="true">✓</span></button></li>
+            <li><button class="lang__item" type="button" role="menuitemradio" data-lang="es">Español<span class="lang__check" aria-hidden="true">✓</span></button></li>
+        </ul>
     </div>
 
     <div class="logo-wrapper">
@@ -674,108 +782,71 @@
         <img src="logo3.jpg" alt="MacWave Logo" class="logo-img logo-3">
     </div>
 
-    <p class="tagline" style="max-width:800px;" data-lang="en">A package manager for macOS, built for the command-line tools macOS developers rely on.</p>
-    <p class="tagline" style="max-width:800px;" data-lang="zh">面向 macOS 的包管理器，用于分发开发者日常依赖的命令行工具。</p>
+    <p class="tagline" style="max-width:800px;" data-i18n="hero.tagline">A package manager for macOS, built for the command-line tools macOS developers rely on.</p>
 
-    <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="en">
+    <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-i18n="version.block">
         <span class="v-line">Latest Version : 4.5.0</span>
         <span class="v-line">Release on 2026-11-19</span>
     </div>
-    <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;" data-lang="zh">
-        <span class="v-line">最新版本 : 4.5.0</span>
-        <span class="v-line">发布于 2026-11-19</span>
-    </div>
 
     <div style="margin-top: -14px; margin-bottom: 28px;">
-        <a href="https://docs.macwave.org" class="link-docs" data-lang="en">Docs &rarr;</a>
-        <a href="https://docs.macwave.org" class="link-docs" data-lang="zh">文档 &rarr;</a>
+        <a href="https://docs.macwave.org" class="link-docs" data-i18n="docs.link">Docs &rarr;</a>
     </div>
 
-    <a href="https://github.com/MacWaveOrg/MacWave/releases" class="btn-github" data-lang="en">View On GitHub</a>
-    <a href="https://github.com/MacWaveOrg/MacWave/releases" class="btn-github" data-lang="zh">在 GitHub 上查看</a>
+    <a href="https://github.com/MacWaveOrg/MacWave/releases" class="btn-github" data-i18n="github.button">View On GitHub</a>
 
     <div style="margin-top: 2em;"></div>
     <div style="text-align: center; margin-bottom: 1.2em;">
-        <a href="https://linuxwave.org" class="link-linuxwave" data-lang="en">Linux? View LinuxWave &rarr;</a>
-        <a href="https://linuxwave.org" class="link-linuxwave" data-lang="zh">Linux？查看 LinuxWave &rarr;</a>
+        <a href="https://linuxwave.org" class="link-linuxwave" data-i18n="linuxwave.link">Linux? View LinuxWave &rarr;</a>
     </div>
     <div style="text-align: center; font-size: 1.2rem; font-weight: bold;">
-        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;" data-lang="en">Explore MacWave Team</a>
-        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;" data-lang="zh">浏览 MacWave 团队</a>
+        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;" data-i18n="team.link">Explore MacWave Team</a>
     </div>
     <div style="margin-top: 0.5em;"></div>
-    <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;" data-lang="en">(Click to view)</div>
-    <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;" data-lang="zh">（点击查看）</div>
+    <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;" data-i18n="explore.hint">(Click to view)</div>
     <div style="margin-top: 1.4em;">
-        <a href="https://social.macwave.org" class="btn-social" title="MacWave 社区">
+        <a href="https://social.macwave.org" class="btn-social" title="MacWave community">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
                  stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M4 3.5H11.5A2.5 2.5 0 0 1 14 6V10.5A2.5 2.5 0 0 1 11.5 13H7.4L4.8 15.4V13H3.5A2.5 2.5 0 0 1 1 10.5V6A2.5 2.5 0 0 1 3.5 3.5Z"/>
                 <path d="M12.5 9H19.5A2.5 2.5 0 0 1 22 11.5V16A2.5 2.5 0 0 1 19.5 18.5V20.6L16.9 18.5H12.5A2.5 2.5 0 0 1 10 16V11.5A2.5 2.5 0 0 1 12.5 9Z"/>
             </svg>
-            <span class="sr-only" data-lang="en">MacWave community</span>
-            <span class="sr-only" data-lang="zh">MacWave 社区</span>
+            <span class="sr-only" data-i18n="community.label">MacWave community</span>
         </a>
     </div>
     <div style="margin-top: 1em;"></div>
 
     <div class="content-section" style="padding: 20px; color: #ffffff; text-align: left;">
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="en">About MacWave</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="zh">关于MacWave</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-i18n="about.title">About MacWave</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="about.intro">
             <strong>MacWave</strong> is a <strong>package manager for macOS</strong>, built to distribute the <strong>command-line tools</strong> that <strong>macOS software developers</strong> rely on. Its project, <strong>LinuxWave</strong>, covers Linux.
         </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            <strong>MacWave</strong> 是一个<strong>面向 macOS 的包管理器</strong>，用于分发 <strong>macOS 软件开发者</strong>日常依赖的<strong>命令行工具</strong>。Linux 由项目 <strong>LinuxWave</strong> 覆盖。
-        </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Why MacWave</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">为什么选择 MacWave</h2>
-        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="why.title">Why MacWave</h2>
+        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;" data-i18n="why.items">
             <li><strong>Small on disk.</strong> The installer fetches individual files rather than cloning the repository, and there is no package cache to keep in sync.</li>
             <li><strong>One command per package.</strong> Common tools are installed by name, without hunting for release pages.</li>
-            <li><strong>Versioned by design.</strong> Every binary lives under <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package@version</code>, so several versions coexist and none of them shadow a system tool.</li>
-            <li><strong>Optional unversioned links.</strong> <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link &lt;package&gt;</code> creates a plain <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package</code> shortcut that points at the highest installed version and re-points itself whenever versions are installed or removed.</li>
+            <li><strong>Versioned by design.</strong> Every binary lives under <code class="ic">package@version</code>, so several versions coexist and none of them shadow a system tool.</li>
+            <li><strong>Optional unversioned links.</strong> <code class="ic">wave link &lt;package&gt;</code> creates a plain <code class="ic">package</code> shortcut that points at the highest installed version and re-points itself whenever versions are installed or removed.</li>
             <li><strong>Isolated by construction.</strong> Everything MacWave installs stays inside its own directories; it never overwrites or links against macOS system libraries, so even a major macOS upgrade leaves it intact.</li>
-            <li><strong>No stale metadata.</strong> Package data is read from the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/infosource</code> repository at request time.</li>
-            <li><strong>Ten archive formats, covered by CI.</strong> Extensionless binaries, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.zip</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.gz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.bz2</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.xz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.gz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.xz</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.bz2</code>, and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.conda</code>.</li>
+            <li><strong>No stale metadata.</strong> Package data is read from the <code class="ic">MacWaveOrg/infosource</code> repository at request time.</li>
+            <li><strong>Ten archive formats, covered by CI.</strong> Extensionless binaries, <code class="ic">.zip</code>, <code class="ic">.tar.gz</code>, <code class="ic">.tar.bz2</code>, <code class="ic">.tar.xz</code>, <code class="ic">.tar</code>, <code class="ic">.gz</code>, <code class="ic">.xz</code>, <code class="ic">.bz2</code>, and <code class="ic">.conda</code>.</li>
             <li><strong>Checksum before extraction.</strong> A package whose SHA256 is missing or does not match is refused, never installed with a warning.</li>
-            <li><strong>Resumable downloads.</strong> An interrupted transfer continues with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-C</code>.</li>
+            <li><strong>Resumable downloads.</strong> An interrupted transfer continues with <code class="ic">-C</code>.</li>
             <li><strong>Transparent implementation.</strong> Python and Shell only. The interpreter is bundled, so no runtime has to be installed and no behaviour is hidden behind one.</li>
             <li><strong>Dependencies handled for you.</strong> Packages that need libraries declare them; MacWave installs, tracks and removes those libraries by reference count.</li>
         </ul>
-        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;" data-lang="zh">
-            <li><strong>占用小。</strong> 安装器按文件拉取，而不是 clone 整个仓库；也不保留需要同步的软件包缓存。</li>
-            <li><strong>一条命令装一个软件包。</strong> 常用工具按名字安装，不必再逐个寻找发布页。</li>
-            <li><strong>版本化存储。</strong> 每个二进制文件都存放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">package@version</code> 之下，多个版本可以共存，且都不会遮蔽系统工具。</li>
-            <li><strong>可选的免版本号链接。</strong> <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link &lt;软件包&gt;</code> 会创建一个不带版本号的 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">软件包</code> 快捷方式，指向已安装的最高版本；安装或卸载版本时，它会自动改指。</li>
-            <li><strong>天然隔离。</strong> MacWave 安装的一切都留在自己的目录中，绝不覆盖或链接 macOS 系统库，因此即使跨越大版本升级 macOS，环境依然完整可用。</li>
-            <li><strong>元数据不会过期。</strong> 软件包数据在请求时从 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MacWaveOrg/infosource</code> 仓库读取。</li>
-            <li><strong>十种归档格式，均由 CI 覆盖。</strong> 无扩展名二进制文件、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.zip</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.gz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.bz2</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar.xz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.tar</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.gz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.xz</code>、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.bz2</code> 与 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.conda</code>。</li>
-            <li><strong>先校验，后解压。</strong> 缺少 SHA256 或校验不符的软件包会被拒绝，绝不「给出警告后照常安装」。</li>
-            <li><strong>支持断点续传。</strong> 传输中断后可用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">-C</code> 继续。</li>
-            <li><strong>实现透明。</strong> 只用 Python 与 Shell，并自带解释器 —— 无需另装运行时，行为也没有藏在运行时里。</li>
-            <li><strong>依赖自动处理。</strong> 需要库的软件包会在记录中声明；MacWave 按引用计数安装、追踪并移除这些库。</li>
-        </ul>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Supported macOS Version</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">支持的 macOS 版本</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 1; font-weight: bold; color: #ffffff;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="supportedOs.title">Supported macOS Version</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 1; font-weight: bold; color: #ffffff;" data-i18n="supportedOs.value">
             macOS Monterey 12 and above
         </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 1; font-weight: bold; color: #ffffff;" data-lang="zh">
-            macOS Monterey 12 及以上
-        </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Install MacWave</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">安装 MacWave</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="install.title">Install MacWave</h2>
 
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="install.prompt">
             In the terminal, run:
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            在终端中运行：
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -786,19 +857,13 @@
             </button>
             <pre><span class="code-dollar">$</span> /bin/bash -c "$(curl -fsSL https://github.com/MacWaveOrg/MacWave/releases/latest/download/install.sh)"</pre>
         </div>
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="en">
-            (If you are using bash instead of zsh, run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">source ~/.bashrc</code>)
-        </p>
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="zh">
-            （如果你使用的是 bash 而非 zsh，请运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">source ~/.bashrc</code>）
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-i18n="install.bashNote">
+            (If you are using bash instead of zsh, run <code class="ic">source ~/.bashrc</code>)
         </p>
 
-        <p style="margin: 16px 0 0 0; font-size: 1.05rem; line-height: 1.6; font-weight: 600;" data-lang="en">
+        <p style="margin: 16px 0 0 0; font-size: 1.05rem; line-height: 1.6; font-weight: 600;" data-i18n="install.handbook">
             We recommend reading the handbook after installing.
             <a href="foreword/foreword" style="color: #4a90e2;">Read it here</a>.
-        </p>
-        <p style="margin: 16px 0 0 0; font-size: 1.05rem; line-height: 1.6; font-weight: 600;" data-lang="zh">
-            安装后建议阅读手册。<a href="foreword/foreword-zh" style="color: #4a90e2;">点击阅读</a>。
         </p>
 
         <div class="split2">
@@ -807,32 +872,21 @@
                      alt="Running the MacWave installer: it picks an install directory, fetches the update commands and the bundled Python environment, and asks for the licence once.">
             </figure>
             <div class="split2-side">
-                <p class="env-requirements" data-lang="en">
+                <p class="env-requirements" data-i18n="install.requirements">
                     Requirements: macOS Monterey 12 or later, Xcode Command Line Tools.<br>
                     You do not need to install Python — MacWave bundles its own interpreter.
                 </p>
-                <p class="env-requirements" data-lang="zh">
-                    环境要求：macOS Monterey 12 及以上、Xcode Command Line Tools。<br>
-                    你不需要自己安装 Python —— MacWave 自带解释器。
-                </p>
 
-                <p class="env-requirements" data-lang="en">
-                    This repository holds source, not an installation. Running <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code> from inside a clone, or adding directories from the clone to <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>, fails by design.
-                </p>
-                <p class="env-requirements" data-lang="zh">
-                    本仓库存放的是源码，不是安装结果。在 clone 里运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave</code>、或把 clone 中的目录加入 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>，都会按设计失败。
+                <p class="env-requirements" data-i18n="install.sourceNote">
+                    This repository holds source, not an installation. Running <code class="ic">wave</code> from inside a clone, or adding directories from the clone to <code class="ic">PATH</code>, fails by design.
                 </p>
             </div>
         </div>
 
-        <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="en">Unattended install</h3>
-        <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-lang="zh">无人值守安装</h3>
+        <h3 style="font-size: 1.35rem; margin-top: 32px; margin-bottom: 12px;" data-i18n="unattended.title">Unattended install</h3>
 
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            For scripts and batch use, the installer takes flags so it never waits for input. Options go after <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code>, which ends bash&rsquo;s own options:
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            面向脚本与批量场景，安装器提供若干参数，全程不会停下来等待输入。参数放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 之后 —— <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 会结束 bash 自身的选项：
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="unattended.intro">
+            For scripts and batch use, the installer takes flags so it never waits for input. Options go after <code class="ic">--</code>, which ends bash&rsquo;s own options:
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -845,40 +899,24 @@
 <span class="code-dollar">$</span> /bin/bash -c "$(curl -fsSL https://github.com/MacWaveOrg/MacWave/releases/latest/download/install.sh)" \
   -- --ci --dir-option=1</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--ci</code> (same as <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--CI</code>) answers the directory menu and the agreement automatically. It needs passwordless sudo, or root, when the chosen directory requires privilege. <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=N</code> picks menu entry <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">N</code> (1-4 on Intel, 1-3 on Apple silicon); for the custom entry, append the path after <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">=</code>, as in <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=4=/opt/my-macwave</code>. Three more arrived in 4.4: <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--raw</code> (no ASCII art, no colour, no spinner; '
-          'one <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">####</code> line per 10% of a download), <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--print-usage</code> '
-          '(prints usage, then installs anyway) and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--skip-probe</code> (skips the write probe and '
-          'goes by permission bits alone). <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--help</code> prints usage and stops, and no longer touches '
-          'the network. Run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh --help</code> for the list.
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--ci</code>（也可写 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--CI</code>）会自动应答目录菜单与许可协议；当选中的目录需要提权时，它要求免密 sudo 或以 root 运行。<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=N</code> 免菜单直接选定第 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">N</code> 项（Intel 机器为 1-4，Apple 芯片为 1-3）；自定义项要在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">=</code> 之后附上路径，例如 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--dir-option=4=/opt/my-macwave</code>。4.4 又多了三个：<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--raw</code>（不要艺术字、颜色与转圈动画，下载每 10% 打一行 '
-          '<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">####</code>）、<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--print-usage</code>（打用法后照常安装）、'
-          '<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--skip-probe</code>（跳过写探针，只按权限位判断）。'
-          '<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--help</code> 只打用法就结束，也不再联网。'
-          '完整参数列表可运行 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">install.sh --help</code> 查看。
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="unattended.flags">
+            <code class="ic">--ci</code> (same as <code class="ic">--CI</code>) answers the directory menu and the agreement automatically. It needs passwordless sudo, or root, when the chosen directory requires privilege. <code class="ic">--dir-option=N</code> picks menu entry <code class="ic">N</code> (1-4 on Intel, 1-3 on Apple silicon); for the custom entry, append the path after <code class="ic">=</code>, as in <code class="ic">--dir-option=4=/opt/my-macwave</code>. Three more arrived in 4.4: <code class="ic">--raw</code> (no ASCII art, no colour, no spinner; '
+          'one <code class="ic">####</code> line per 10% of a download), <code class="ic">--print-usage</code> '
+          '(prints usage, then installs anyway) and <code class="ic">--skip-probe</code> (skips the write probe and '
+          'goes by permission bits alone). <code class="ic">--help</code> prints usage and stops, and no longer touches '
+          'the network. Run <code class="ic">install.sh --help</code> for the list.
         </p>
 
-        <p class="install-note" data-lang="en">
-            <strong>Mind where the options go.</strong> Writing <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">/bin/bash -c "$(curl ...)" --ci</code> makes <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--ci</code> the script name (<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">$0</code>), so it is silently dropped; the installer warns when it detects this. The working form puts the options after <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code>.
-        </p>
-        <p class="install-note" data-lang="zh">
-            <strong>注意参数的位置。</strong>写成 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">/bin/bash -c "$(curl ...)" --ci</code> 会让 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--ci</code> 变成脚本名（<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">$0</code>），从而被静默丢弃；安装器检测到这种用法时会给出警告。正确写法是把参数放在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--</code> 之后。
+        <p class="install-note" data-i18n="unattended.position">
+            <strong>Mind where the options go.</strong> Writing <code class="ic">/bin/bash -c "$(curl ...)" --ci</code> makes <code class="ic">--ci</code> the script name (<code class="ic">$0</code>), so it is silently dropped; the installer warns when it detects this. The working form puts the options after <code class="ic">--</code>.
         </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Verify your download</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">校验下载</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="verify.title">Verify your download</h2>
 
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            Every release ships <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS</code> (the checksums of every asset) and
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS.asc</code> (its detached signature). Two commands confirm that the
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="verify.intro">
+            Every release ships <code class="ic">SHA256SUMS</code> (the checksums of every asset) and
+            <code class="ic">SHA256SUMS.asc</code> (its detached signature). Two commands confirm that the
             bytes you have are the bytes we published:
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            每个正式版都附 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS</code>（全部资产的校验值）与
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">SHA256SUMS.asc</code>（它的分离签名）。两条命令就能确认你手上的字节
-            就是发布时那一份：
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -891,35 +929,21 @@
 <span class="code-dollar">$</span> shasum -a 256 -c SHA256SUMS</pre>
         </div>
 
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0;" data-lang="en">
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0;" data-i18n="verify.fingerprint">
             Signing key fingerprint:<br>
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">7220E218 395D E865 AACC 3391 67F1 4E52 D0E2 29FB</code><br>
-            Compare it against the copy in the repository (<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">Keys/description.md</code>, next to the public keys) and the
+            <code class="ic">7220E218 395D E865 AACC 3391 67F1 4E52 D0E2 29FB</code><br>
+            Compare it against the copy in the repository (<code class="ic">Keys/description.md</code>, next to the public keys) and the
             release notes before trusting a key you imported.
         </p>
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0;" data-lang="zh">
-            签名指纹：<br>
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">7220E218 395D E865 AACC 3391 67F1 4E52 D0E2 29FB</code><br>
-            信任一把导入的钥之前，先和仓库里的那份（<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">Keys/description.md</code>，在公钥旁边）以及发布
-            说明对一遍。
-        </p>
 
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="en">
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-i18n="verify.selfupdate">
             MacWave checks its own updates too (the pointer file carries a signature and every downloaded
             file carries a checksum). Since 4.4 that check is <strong>experimental</strong>: a mismatch warns
-            and continues, and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MACWAVE_STRICT_HASHES=1</code> turns it into a failure.
-        </p>
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="zh">
-            MacWave 自己更新时也会校验（版本指针带签名，每个下载的文件带校验值）。从 4.4 起这一步是
-            <strong>实验性</strong>的：不符只警告、继续安装，设 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">MACWAVE_STRICT_HASHES=1</code>
-            才会当成失败。
+            and continues, and <code class="ic">MACWAVE_STRICT_HASHES=1</code> turns it into a failure.
         </p>
 
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">uninstall.sh</code> is scriptable in the same way: <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> skips the confirmation, which otherwise needs a terminal (use <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> in CI):
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">uninstall.sh</code> 同样支持脚本化调用：<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code> 跳过确认，而确认本身需要一个终端（因此在 CI 里请使用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--force</code>）：
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="verify.uninstallScript">
+            <code class="ic">uninstall.sh</code> is scriptable in the same way: <code class="ic">--force</code> skips the confirmation, which otherwise needs a terminal (use <code class="ic">--force</code> in CI):
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -931,13 +955,9 @@
             <pre><span class="code-dollar">$</span> /bin/bash -c "$(curl -fsSL https://github.com/MacWaveOrg/MacWave/releases/latest/download/uninstall.sh)" -- --force</pre>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Uninstall MacWave</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">卸载 MacWave</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="uninstall.title">Uninstall MacWave</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="uninstall.body">
             To completely remove MacWave from your system, run the following command in your terminal:
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            要从系统中彻底移除 MacWave，请在终端中运行以下命令：
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -949,13 +969,9 @@
             <pre><span class="code-dollar">$</span> /bin/bash -c "$(curl -fsSL https://github.com/MacWaveOrg/MacWave/releases/latest/download/uninstall.sh)"</pre>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Download Directory</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">下载目录</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="dirs.title">Download Directory</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="dirs.binaries">
             Installed binaries are stored in (options):
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            已安装的二进制文件存储于（可选）：
         </p>
         <div class="code-container">
             <pre>1. ~/.local/macwave
@@ -963,30 +979,23 @@
 3. /usr/local/macwave (Only Intel Mac)
 4. Custom</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="dirs.config">
             Config file is stored in (a system-level install always takes priority):
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            配置文件存储于（系统级安装始终优先）：
         </p>
         <div class="code-container">
             <pre>1. /opt/macwave_config          system-level install
 2. ~/.config/macwave_config     user-level install</pre>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Install Packages</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">安装软件包</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="pkgInstall.title">Install Packages</h2>
         <div class="split2">
             <figure>
                 <img src="images/demo1.gif" width="780" height="536" loading="lazy"
                      alt="wave install ffmpeg: version info is fetched, the SHA256 is verified, the package is extracted and checked, and ffmpeg@9.0.2 is installed and linked.">
             </figure>
             <div class="split2-side">
-                <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+                <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="pkgInstall.body">
                     One command downloads, verifies, unpacks and links a package — and checks its SHA256 before anything is installed:
-                </p>
-                <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-                    一条命令完成下载、校验、解包与链接，装之前先核对 SHA256：
                 </p>
                 <div class="code-container has-copy-btn">
                     <button class="copy-btn" onclick="copyCode(this)">
@@ -997,71 +1006,44 @@
                     </button>
                     <pre><span class="code-dollar">$</span> wave install ffmpeg</pre>
                 </div>
-                <p style="font-size: 1.05rem; line-height: 1.6; opacity: 0.85;" data-lang="en">
-                    Not sure of the name? <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave search &lt;keyword&gt;</code> searches the index and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave info &lt;package&gt;</code> shows the detail. There is no silent replacement: the version you ask for is the version you get, so pinning is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install ffmpeg@6.0</code>.
-                </p>
-                <p style="font-size: 1.05rem; line-height: 1.6; opacity: 0.85;" data-lang="zh">
-                    不确定包名？<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave search &lt;关键字&gt;</code> 在索引里搜，<code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave info &lt;包名&gt;</code> 看详情。不会替你换版本 —— 你要哪个就是哪个，需要固定版本就写 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install ffmpeg@6.0</code>。
+                <p style="font-size: 1.05rem; line-height: 1.6; opacity: 0.85;" data-i18n="pkgInstall.search">
+                    Not sure of the name? <code class="ic">wave search &lt;keyword&gt;</code> searches the index and <code class="ic">wave info &lt;package&gt;</code> shows the detail. There is no silent replacement: the version you ask for is the version you get, so pinning is <code class="ic">wave install ffmpeg@6.0</code>.
                 </p>
             </div>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Run Packages</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">运行软件包</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            Once installed, a package is on your <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code>. Just type its name:
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            装好之后软件包就在 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PATH</code> 里，直接敲名字即可：
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="pkgRun.title">Run Packages</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="pkgRun.body">
+            Once installed, a package is on your <code class="ic">PATH</code>. Just type its name:
         </p>
         <div class="code-container">
             <pre><span class="code-dollar">$</span> {package_name}</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install</code> creates that name for you, so there is no extra step. When several versions are installed and you want one of them specifically, add the version:
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            这条不带版本号的名字是 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave install</code> 一并建好的，无需额外操作。装了多个版本、想指定其中一个时，再带上版本号：
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="pkgRun.link">
+            <code class="ic">wave install</code> creates that name for you, so there is no extra step. When several versions are installed and you want one of them specifically, add the version:
         </p>
         <div class="code-container">
             <pre><span class="code-dollar">$</span> {package_name}@{version}</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            If you installed with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--no-link</code>, that name was skipped on purpose — run <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> once to bring it back.
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            如果你当初是用 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--no-link</code> 装的，那个名字是特意跳过的 —— 运行一次 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave link {package_name}</code> 就能补回来。
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="pkgRun.nolink">
+            If you installed with <code class="ic">--no-link</code>, that name was skipped on purpose — run <code class="ic">wave link {package_name}</code> once to bring it back.
         </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Symlink Management</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">软链接管理</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="symlink.title">Symlink Management</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="symlink.intro">
             Since MacWave 2.4, once a versionless link exists, MacWave keeps it pointing at the right version on its own:
         </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            从 MacWave 2.4 起，建立不含版本号的软链接后，MacWave 会自动维护它指向的版本：
-        </p>
-        <ol style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-lang="en">
+        <ol style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-i18n="symlink.rules">
             <li>If the highest version is uninstalled, the versionless link moves to the highest version that remains, and the uninstalled version's own link goes with it.</li>
-            <li>An install re-points the versionless link at the version it just installed; add <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--no-link</code> to that install to skip this.</li>
+            <li>An install re-points the versionless link at the version it just installed; add <code class="ic">--no-link</code> to that install to skip this.</li>
             <li>If a package has no versions left at all, the versionless link is removed.</li>
             <li>A versioned name is always callable, whether or not a versionless link exists.</li>
         </ol>
-        <ol style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.6em;" data-lang="zh">
-            <li>最高版本被卸载后，不含版本号的软链接会改指向剩余版本中的最高版本，被卸载版本自己的软链接一并撤销。</li>
-            <li>安装会把不含版本号的软链接指向本次安装的版本；本次安装加上 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">--no-link</code> 可跳过这一步。</li>
-            <li>某软件包不再有任何版本时，不含版本号的软链接会被撤销。</li>
-            <li>无论何种情况，含版本号的名称始终可以调用，即使存在不含版本号的软链接。</li>
-        </ol>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            A manual <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave unlink {package_name}</code> is remembered: a later uninstall will not re-create the link for that package.
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            手动 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">wave unlink {package_name}</code> 过的软件包会被记住，之后的卸载不会重新为它建立链接。
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="symlink.manual">
+            A manual <code class="ic">wave unlink {package_name}</code> is remembered: a later uninstall will not re-create the link for that package.
         </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Command Reference</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">命令参考</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="commands.title">Command Reference</h2>
         <pre>Usage:
   wave &lt;command&gt; [package] [flags]
 
@@ -1147,30 +1129,19 @@ the link when no version is left. uninstall --no-link keeps the link as-is, and
 refuses to run when that would leave the link pointing at the version you are
 removing.</pre>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Mirrors</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">镜像站</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="mirrors.title">Mirrors</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6;" data-i18n="mirrors.body">
             Officially verified mirror:<br>
             <a href="https://mirror.repohub.top" class="link-mirror" target="_blank" rel="noopener">https://mirror.repohub.top</a>
         </p>
-        <p style="font-size: 1.1rem; line-height: 1.6;" data-lang="zh">
-            官方认证的镜像站：<br>
-            <a href="https://mirror.repohub.top" class="link-mirror" target="_blank" rel="noopener">https://mirror.repohub.top</a>
-        </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">For Developers</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">面向开发者</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6;" data-lang="en">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="dev.title">For Developers</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6;" data-i18n="dev.body">
             See <a href="https://docs.macwave.org" class="link-docs" target="_blank" rel="noopener">docs.macwave.org</a>
         </p>
-        <p style="font-size: 1.1rem; line-height: 1.6;" data-lang="zh">
-            见 <a href="https://docs.macwave.org" class="link-docs" target="_blank" rel="noopener">docs.macwave.org</a>
-        </p>
 
-<h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Supported Packages</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">支持的软件包</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">(Listed in alphabetical order)</p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">（按字母顺序排列）</p>
+<h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="supported.title">Supported Packages</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="supported.order">(Listed in alphabetical order)</p>
         <div class="pkg-list">
             <span>age</span>
             <span>aria2c</span>
@@ -1239,20 +1210,15 @@ removing.</pre>
             <span>zoxide</span>
         </div>
 
-                <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">License</h2>
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">许可证</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
+                <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="license.title">License</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="license.body">
             This project is licensed under the <strong>MIT License</strong>.
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            本项目基于 <strong>MIT 许可证</strong> 发布。
         </p>
 
     </div>
 
     <div class="contact-section">
-        <h2 data-lang="en">Contact Us</h2>
-        <h2 data-lang="zh">联系我们</h2>
+        <h2 data-i18n="contact.title">Contact Us</h2>
         <div class="contact-divider"></div>
         <div class="contact-items">
             <div class="contact-item">
@@ -1268,8 +1234,7 @@ removing.</pre>
                 <a href="mailto:macwaveorg@outlook.com">macwaveorg@outlook.com</a>
             </div>
         </div>
-        <div class="contact-hint" data-lang="en">Click the links to open.</div>
-        <div class="contact-hint" data-lang="zh">点击链接即可打开。</div>
+        <div class="contact-hint" data-i18n="contact.hint">Click the links to open.</div>
     </div>
 
         <!-- 用户协议：正文不在这里，见 agreement/agreement.md（英文）与
@@ -1278,14 +1243,11 @@ removing.</pre>
          的静态文本，而且终端可以 curl 直接读到 —— 安装器与自更新都指到这里。 -->
     <div class="disclaimer-container" id="agreement">
         <div class="disclaimer">
-            <p data-lang="en">
+            <p data-i18n="agreement.notice">
                 Using MacWave means you accept the
                 <button class="lic-link" type="button" onclick="openAgreement()">User Agreement</button>
                 (last updated 2026-11-17, MacWave 4.4.0). Read it in full before using MacWave or
                 any of its software packages; if you do not accept it, do not use them.
-            </p>
-            <p data-lang="zh">
-                使用 MacWave 即表示你接受<button class="lic-link" type="button" onclick="openAgreement()">用户协议</button>（更新于 2026-11-17，MacWave 4.4.0）。使用本软件及其软件包前请完整读一遍；不同意就不要使用。
             </p>
             <noscript>
                 <p>
@@ -1304,13 +1266,13 @@ removing.</pre>
             </div>
             <div class="lic-body" id="lic-body">Loading…</div>
             <p class="lic-note">
-                <span data-lang="zh">正文取自本站发布的协议文件，逐字一致。</span>
-                <span data-lang="en">Fetched verbatim from the agreement file published with this site.</span>
-                <a id="lic-src" href="agreement/agreement.md" target="_blank" rel="noopener"><span data-lang="zh">原文地址</span><span data-lang="en">Source</span></a>
+                <span data-i18n="agreement.note">Fetched verbatim from the agreement file published with this site.</span>
+                <a id="lic-src" href="agreement/agreement.md" target="_blank" rel="noopener"><span data-i18n="agreement.source">Source</span></a>
             </p>
         </div>
     </div>
 
+    <script src="i18n.js"></script>
     <script>
         function copyCode(btn) {
             const pre = btn.parentElement.querySelector('pre');
@@ -1403,21 +1365,25 @@ removing.</pre>
             const body = document.getElementById('lic-body');
             const title = document.getElementById('lic-title');
             const src = document.getElementById('lic-src');
-            const zh = document.documentElement.classList.contains('lang-zh');
+            const closeBtn = document.querySelector('.lic-close');
+            const lang = document.documentElement.lang;
+            const dict = I18N[lang] || {};
+            const chinese = lang === 'zh-Hans' || lang === 'zh-Hant';
 
             agreementTrigger = document.activeElement;
-            title.textContent = zh ? '用户协议' : 'User Agreement';
-            src.href = AGREEMENT_SOURCES[0] + (zh ? 'agreement-zh.md' : 'agreement.md');
-            body.textContent = 'Loading…';
+            title.textContent = dict['agreement.dialogTitle'] || 'User Agreement';
+            closeBtn.setAttribute('aria-label', dict['agreement.close'] || 'Close');
+            src.href = AGREEMENT_SOURCES[0] + (chinese ? 'agreement-zh.md' : 'agreement.md');
+            body.textContent = dict['agreement.loading'] || 'Loading…';
             overlay.classList.add('open');
             document.body.style.overflow = 'hidden';
-            document.querySelector('.lic-close').focus();
+            closeBtn.focus();
 
             /* 中文界面读中文版；中文版取不到就退回英文原文 —— 让读者对着一个
                错误框，比读到英文更糟。 */
-            loadAgreement(zh ? 'agreement-zh.md' : 'agreement.md')
+            loadAgreement(chinese ? 'agreement-zh.md' : 'agreement.md')
                 .catch(function () {
-                    if (!zh) throw new Error('none');
+                    if (!chinese) throw new Error('none');
                     return loadAgreement('agreement.md');
                 })
                 .then(function (hit) {
@@ -1425,7 +1391,7 @@ removing.</pre>
                     src.href = hit.url;
                 })
                 .catch(function () {
-                    body.textContent =
+                    body.textContent = dict['agreement.loadError'] ||
                         'Could not load the agreement from any mirror. ' +
                         'Open the link below instead.';
                 });
@@ -1443,27 +1409,120 @@ removing.</pre>
             if (event.key === 'Escape') closeAgreement();
         });
 
-        // 语言切换
-        function setLanguage(lang) {
-            const root = document.documentElement;
-            root.classList.remove('lang-en', 'lang-zh');
-            root.classList.add('lang-' + lang);
-            root.lang = (lang === 'zh') ? 'zh-Hans' : 'en';
-            document.querySelectorAll('.lang-btn').forEach(function (btn) {
-                btn.classList.toggle('active', btn.getAttribute('data-lang-set') === lang);
+        /* ---- 语言切换 ----
+         *
+         * 英文原文留在 HTML 里（没有 JS 也能读），其余语言在 i18n.js。
+         * 切换时按 data-i18n 覆盖 innerHTML；缺翻译的 key 回落到英文原文。
+         */
+        const LANGUAGES = ['zh-Hans', 'zh-Hant', 'en', 'fr', 'ja', 'ko', 'ru', 'de', 'es'];
+        const I18N = window.MACWAVE_I18N || {};
+
+        const ORIGINAL_HTML = new Map();
+        document.querySelectorAll('[data-i18n]').forEach(function (node) {
+            ORIGINAL_HTML.set(node, node.innerHTML);
+        });
+
+        const langEl = document.getElementById('lang');
+        const langBtn = document.getElementById('langBtn');
+        const langMenu = document.getElementById('langMenu');
+        const langItems = Array.prototype.slice.call(langMenu.querySelectorAll('[data-lang]'));
+
+        function applyLanguage(lang) {
+            const dict = I18N[lang] || {};
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(function (node) {
+                const key = node.getAttribute('data-i18n');
+                const value = dict[key] != null ? dict[key] : ORIGINAL_HTML.get(node);
+                if (value != null) node.innerHTML = value;
             });
-            try { localStorage.setItem('macwave-lang', lang); } catch (e) {}
+
+            const label = dict.label || 'Language';
+            langBtn.setAttribute('aria-label', label);
+            langBtn.title = label;
+
+            const social = document.querySelector('.btn-social');
+            if (social) social.title = dict['community.title'] || 'MacWave community';
+
+            langItems.forEach(function (item) {
+                item.setAttribute('aria-checked', String(item.dataset.lang === lang));
+            });
+        }
+
+        function detectLanguage() {
+            let saved = null;
+            try {
+                saved = localStorage.getItem('macwave.lang') || localStorage.getItem('macwave-lang');
+            } catch (e) { /* file:// 下可能不可用 */ }
+            if (saved && LANGUAGES.indexOf(saved) !== -1) return saved;
+
+            const list = (navigator.languages && navigator.languages.length)
+                ? navigator.languages
+                : [navigator.language || 'en'];
+            for (let i = 0; i < list.length; i++) {
+                const tag = String(list[i]).toLowerCase();
+                if (tag.indexOf('zh') === 0) {
+                    return /hant|tw|hk|mo/.test(tag) ? 'zh-Hant' : 'zh-Hans';
+                }
+                if (tag.indexOf('fr') === 0) return 'fr';
+                if (tag.indexOf('de') === 0) return 'de';
+                if (tag.indexOf('es') === 0) return 'es';
+                if (tag.indexOf('ru') === 0) return 'ru';
+                if (tag.indexOf('ja') === 0) return 'ja';
+                if (tag.indexOf('ko') === 0) return 'ko';
+                if (tag.indexOf('en') === 0) return 'en';
+            }
+            return 'en';
         }
 
         (function () {
-            let saved = null;
-            try { saved = localStorage.getItem('macwave-lang'); } catch (e) {}
-            if (saved !== 'en' && saved !== 'zh') {
-                const nav = (navigator.language || 'en').toLowerCase();
-                saved = nav.indexOf('zh') === 0 ? 'zh' : 'en';
+            function closeMenu(refocus) {
+                if (langMenu.hidden) return;
+                langMenu.hidden = true;
+                langBtn.setAttribute('aria-expanded', 'false');
+                if (refocus) langBtn.focus({ preventScroll: true });
             }
-            setLanguage(saved);
+
+            function openMenu() {
+                langMenu.hidden = false;
+                langBtn.setAttribute('aria-expanded', 'true');
+                const active = langMenu.querySelector('[aria-checked="true"]') || langItems[0];
+                if (active) active.focus({ preventScroll: true });
+            }
+
+            langBtn.addEventListener('click', function () {
+                if (langMenu.hidden) openMenu();
+                else closeMenu(true);
+            });
+
+            langItems.forEach(function (item, index) {
+                item.addEventListener('click', function () {
+                    applyLanguage(item.dataset.lang);
+                    try { localStorage.setItem('macwave.lang', item.dataset.lang); } catch (e) {}
+                    closeMenu(true);
+                });
+
+                item.addEventListener('keydown', function (event) {
+                    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                        event.preventDefault();
+                        const step = event.key === 'ArrowDown' ? 1 : -1;
+                        langItems[(index + step + langItems.length) % langItems.length]
+                            .focus({ preventScroll: true });
+                    }
+                });
+            });
+
+            document.addEventListener('pointerdown', function (event) {
+                if (!langEl.contains(event.target)) closeMenu(false);
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') closeMenu(true);
+            });
+
+            applyLanguage(detectLanguage());
         })();
+
     </script>
 
 </body>
