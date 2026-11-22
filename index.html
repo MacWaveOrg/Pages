@@ -1226,10 +1226,11 @@ removing.</pre>
         <div class="contact-hint" data-i18n="contact.hint">Click the links to open.</div>
     </div>
 
-        <!-- 用户协议：正文不在这里，见 agreement/agreement.md（英文）与
-         agreement/agreement-zh.md（中文）。点下面那个按钮就地阅读；
-         没有 JS 时给一条直链。正文单独成文件有两个好处：页面不再背着 12 KB
-         的静态文本，而且终端可以 curl 直接读到 —— 安装器与自更新都指到这里。 -->
+        <!-- 用户协议：正文不在这里，见 agreement/ 下按语言命名的文件
+         （agreement.md 为英文，其余 agreement-<lang>.md，映射见 AGREEMENT_FILES）。
+         点下面那个按钮就地阅读；没有 JS 时给一条直链。正文单独成文件有两个好处：
+         页面不再背着 12 KB 的静态文本，而且终端可以 curl 直接读到 ——
+         安装器与自更新都指到这里。 -->
     <div class="disclaimer-container" id="agreement">
         <div class="disclaimer">
             <p data-i18n="agreement.notice">
@@ -1295,6 +1296,19 @@ removing.</pre>
             'https://fastly.jsdelivr.net/gh/MacWaveOrg/Pages@main/agreement/'
         ];
 
+        /* 各语言对应的协议文件；译本取不到时统一回落到英文原件。 */
+        const AGREEMENT_FILES = {
+            'zh-Hans': 'agreement-zh.md',
+            'zh-Hant': 'agreement-zh-Hant.md',
+            en: 'agreement.md',
+            fr: 'agreement-fr.md',
+            ja: 'agreement-ja.md',
+            ko: 'agreement-ko.md',
+            ru: 'agreement-ru.md',
+            de: 'agreement-de.md',
+            es: 'agreement-es.md'
+        };
+
         const AGREEMENT_ORIGIN_TIMEOUT = 4000;
         const AGREEMENT_REMOTE_TIMEOUT = 8000;
 
@@ -1357,22 +1371,22 @@ removing.</pre>
             const closeBtn = document.querySelector('.lic-close');
             const lang = document.documentElement.lang;
             const dict = I18N[lang] || {};
-            const chinese = lang === 'zh-Hans' || lang === 'zh-Hant';
+            const file = AGREEMENT_FILES[lang] || 'agreement.md';
 
             agreementTrigger = document.activeElement;
             title.textContent = dict['agreement.dialogTitle'] || 'User Agreement';
             closeBtn.setAttribute('aria-label', dict['agreement.close'] || 'Close');
-            src.href = AGREEMENT_SOURCES[0] + (chinese ? 'agreement-zh.md' : 'agreement.md');
+            src.href = AGREEMENT_SOURCES[0] + file;
             body.textContent = dict['agreement.loading'] || 'Loading…';
             overlay.classList.add('open');
             document.body.style.overflow = 'hidden';
             closeBtn.focus();
 
-            /* 中文界面读中文版；中文版取不到就退回英文原文 —— 让读者对着一个
+            /* 各语言读对应译本；译本取不到就退回英文原文 —— 让读者对着一个
                错误框，比读到英文更糟。 */
-            loadAgreement(chinese ? 'agreement-zh.md' : 'agreement.md')
+            loadAgreement(file)
                 .catch(function () {
-                    if (!chinese) throw new Error('none');
+                    if (file === 'agreement.md') throw new Error('none');
                     return loadAgreement('agreement.md');
                 })
                 .then(function (hit) {
