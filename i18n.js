@@ -3,7 +3,7 @@
 window.MACWAVE_I18N = {
   'zh-Hans': {
     'hero.tagline': '面向 macOS 的包管理器，用于分发开发者日常依赖的命令行工具。',
-    'version.block': '<span class="v-line">最新版本 : 4.5.0</span> <span class="v-line">发布于 2026-11-19</span>',
+    'version.block': '<span class="v-line">最新版本 : 4.5.0</span> <span class="v-line">发布于 2026-11-22</span>',
     'about.title': '关于MacWave',
     'about.intro': '<strong>MacWave</strong> 是一个<strong>面向 macOS 的包管理器</strong>，用于分发 <strong>macOS 软件开发者</strong>日常依赖的<strong>命令行工具</strong>。Linux 由项目 <strong>LinuxWave</strong> 覆盖。',
     'why.title': '为什么选择 MacWave',
@@ -69,7 +69,7 @@ window.MACWAVE_I18N = {
   },
   'zh-Hant': {
     'hero.tagline': '面向 macOS 的套件管理器，用於分發開發者日常依賴的命令列工具。',
-    'version.block': '<span class="v-line">最新版本 : 4.5.0</span> <span class="v-line">發佈於 2026-11-19</span>',
+    'version.block': '<span class="v-line">最新版本 : 4.5.0</span> <span class="v-line">發佈於 2026-11-22</span>',
     'about.title': '關於 MacWave',
     'about.intro': '<strong>MacWave</strong> 是一個<strong>面向 macOS 的套件管理器</strong>，用於分發 <strong>macOS 軟體開發者</strong>日常依賴的<strong>命令列工具</strong>。Linux 由專案 <strong>LinuxWave</strong> 涵蓋。',
     'why.title': '為什麼選擇 MacWave',
@@ -148,7 +148,7 @@ window.MACWAVE_I18N = {
   },
   fr: {
     'hero.tagline': 'Un gestionnaire de paquets pour macOS, conçu pour distribuer les outils en ligne de commande dont dépendent les développeurs macOS.',
-    'version.block': '<span class="v-line">Dernière version : 4.5.0</span> <span class="v-line">Publiée le 2026-11-19</span>',
+    'version.block': '<span class="v-line">Dernière version : 4.5.0</span> <span class="v-line">Publiée le 2026-11-22</span>',
     'about.title': 'À propos de MacWave',
     'about.intro': '<strong>MacWave</strong> est un <strong>gestionnaire de paquets pour macOS</strong>, conçu pour distribuer les <strong>outils en ligne de commande</strong> dont dépendent les <strong>développeurs de logiciels macOS</strong>. Linux est couvert par le projet <strong>LinuxWave</strong>.',
     'why.title': 'Pourquoi MacWave',
@@ -214,7 +214,7 @@ window.MACWAVE_I18N = {
   },
   ja: {
     'hero.tagline': 'macOS 開発者が日常的に使うコマンドラインツールを配布するための、macOS 向けパッケージマネージャーです。',
-    'version.block': '<span class="v-line">最新バージョン : 4.5.0</span> <span class="v-line">2026-11-19 公開</span>',
+    'version.block': '<span class="v-line">最新バージョン : 4.5.0</span> <span class="v-line">2026-11-22 公開</span>',
     'about.title': 'MacWave について',
     'about.intro': '<strong>MacWave</strong> は、<strong>macOS ソフトウェア開発者</strong>が日常的に使う<strong>コマンドラインツール</strong>を配布するための<strong>macOS 向けパッケージマネージャー</strong>です。Linux は <strong>LinuxWave</strong> プロジェクトが担当します。',
     'why.title': 'MacWave を選ぶ理由',
@@ -280,7 +280,7 @@ window.MACWAVE_I18N = {
   },
   ko: {
     'hero.tagline': 'macOS 개발자가 일상적으로 사용하는 명령줄 도구를 배포하기 위한 macOS용 패키지 관리자입니다.',
-    'version.block': '<span class="v-line">최신 버전 : 4.5.0</span> <span class="v-line">2026-11-19 배포</span>',
+    'version.block': '<span class="v-line">최신 버전 : 4.5.0</span> <span class="v-line">2026-11-22 배포</span>',
     'about.title': 'MacWave 소개',
     'about.intro': '<strong>MacWave</strong>는 <strong>macOS 소프트웨어 개발자</strong>가 일상적으로 의존하는 <strong>명령줄 도구</strong>를 배포하기 위한 <strong>macOS용 패키지 관리자</strong>입니다. Linux는 <strong>LinuxWave</strong> 프로젝트가 담당합니다.',
     'why.title': 'MacWave를 선택하는 이유',
@@ -346,7 +346,7 @@ window.MACWAVE_I18N = {
   },
   ru: {
     'hero.tagline': 'Менеджер пакетов для macOS, созданный для распространения инструментов командной строки, которыми пользуются разработчики macOS.',
-    'version.block': '<span class="v-line">Последняя версия : 4.5.0</span> <span class="v-line">Выпущена 2026-11-19</span>',
+    'version.block': '<span class="v-line">Последняя версия : 4.5.0</span> <span class="v-line">Выпущена 2026-11-22</span>',
     'about.title': 'О MacWave',
     'about.intro': '<strong>MacWave</strong> — это <strong>менеджер пакетов для macOS</strong>, созданный для распространения <strong>инструментов командной строки</strong>, на которые опираются <strong>разработчики ПО для macOS</strong>. Linux охватывает проект <strong>LinuxWave</strong>.',
     'why.title': 'Почему MacWave',
@@ -412,7 +412,7 @@ window.MACWAVE_I18N = {
   },
   de: {
     'hero.tagline': 'Ein Paketmanager für macOS, gemacht für die Kommandozeilen-Tools, auf die sich macOS-Entwickler verlassen.',
-    'version.block': '<span class="v-line">Neueste Version : 4.5.0</span> <span class="v-line">Veröffentlicht am 2026-11-19</span>',
+    'version.block': '<span class="v-line">Neueste Version : 4.5.0</span> <span class="v-line">Veröffentlicht am 2026-11-22</span>',
     'about.title': 'Über MacWave',
     'about.intro': '<strong>MacWave</strong> ist ein <strong>Paketmanager für macOS</strong>, der die <strong>Kommandozeilen-Tools</strong> verteilt, auf die sich <strong>macOS-Softwareentwickler</strong> verlassen. Linux wird vom Projekt <strong>LinuxWave</strong> abgedeckt.',
     'why.title': 'Warum MacWave',
@@ -478,7 +478,7 @@ window.MACWAVE_I18N = {
   },
   es: {
     'hero.tagline': 'Un gestor de paquetes para macOS, creado para distribuir las herramientas de línea de comandos de las que dependen los desarrolladores de macOS.',
-    'version.block': '<span class="v-line">Última versión : 4.5.0</span> <span class="v-line">Publicada el 2026-11-19</span>',
+    'version.block': '<span class="v-line">Última versión : 4.5.0</span> <span class="v-line">Publicada el 2026-11-22</span>',
     'about.title': 'Acerca de MacWave',
     'about.intro': '<strong>MacWave</strong> es un <strong>gestor de paquetes para macOS</strong>, creado para distribuir las <strong>herramientas de línea de comandos</strong> de las que dependen los <strong>desarrolladores de software para macOS</strong>. Linux está cubierto por el proyecto <strong>LinuxWave</strong>.',
     'why.title': 'Por qué MacWave',
