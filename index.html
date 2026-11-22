@@ -428,6 +428,34 @@
             }
         }
 
+        /* ===== 支持的软件包：左右两列，按行从左到右（1 2 / 3 4 / …） ===== */
+        .pkg-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px 30px;
+            background-color: #1e2a4a;
+            border: 1px solid #3a4a6a;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #d4d4d4;
+            text-align: left;
+        }
+
+        .pkg-list span {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 560px) {
+            .pkg-list {
+                gap: 4px 8px;
+                padding: 14px;
+                font-size: 0.82rem;
+            }
+        }
+
         /* ===== 新增：环境要求粗体样式 ===== */
         .env-requirements {
             font-size: 1.1rem;
@@ -1143,73 +1171,72 @@ removing.</pre>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">支持的软件包</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">(Listed in alphabetical order)</p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">（按字母顺序排列）</p>
-        <div class="code-container">
-            <pre>age              by FiloSottile
-aria2c           by Tatsuhiro Tsujikawa
-atuin            by atuinsh
-bat              by David Peter
-batt             by charlie0129
-btop             by Aristocratos
-choma            by opa334
-cloc             by Al Danial
-columbula        by Sha0huaZhang
-delta            by dandavison
-difft            by Wilfred Hughes
-doggo            by mr-karan
-duckdb           by duckdb
-dust             by bootandy
-eza              by Christina Sørensen and the eza community
-fd               by David Peter
-ffmpeg           by FFmpeg Team
-fileicon         by Michael Klement
-fx               by antonmedv
-fzf              by Junegunn Choi
-gh               by cli
-git              by Git community
-gitleaks         by gitleaks
-glow             by charmbracelet
-gping            by orf
-grpcurl          by fullstorydev
-htop             by Hisham Muhammad and the htop team
-hyperfine        by sharkdp
-ipsw             by blacktop
-jless            by Paul Julius Martinez
-jq               by Stephen Dolan, Nicolas Williams, et al.
-just             by Casey Rodarmor
-k9s              by derailed
-kubectx          by ahmetb
-ldid             by Jay Freeman (saurik) / Procursus Team
-lsd              by Abin Simon
-mise             by jdx
-mkcert           by FiloSottile
-ncdu             by Yoran Heling
-ollama           by ollama
-palera1n         by palera1n Team
-pandoc           by John MacFarlane
-rclone           by rclone
-restic           by restic
-rg               by Andrew Gallant
-robinsing        by Sha0huaZhang
-shellcheck       by koalaman
-shfmt            by mvdan
-sk               by skim-rs
-starship         by starship
-stern            by stern
-taskwarrior-tui  by kdheepak
-tmux             by Nicholas Marriott and contributors
-tofu             by opentofu
-tree             by Steve Baker, Thomas Moore, et al.
-trollrestore     by JJTech (@JJTech0130)
-typst            by typst
-vhs              by charmbracelet
-websocat         by vi
-wget             by GNU Project
-xh               by ducaale
-yazi             by sxyazi
-yq               by Mike Farah
-zellij           by zellij-org
-zoxide           by Ajeet D'Souza
-</pre>
+        <div class="pkg-list">
+            <span>age</span>
+            <span>aria2c</span>
+            <span>atuin</span>
+            <span>bat</span>
+            <span>batt</span>
+            <span>btop</span>
+            <span>choma</span>
+            <span>cloc</span>
+            <span>columbula</span>
+            <span>delta</span>
+            <span>difft</span>
+            <span>doggo</span>
+            <span>duckdb</span>
+            <span>dust</span>
+            <span>eza</span>
+            <span>fd</span>
+            <span>ffmpeg</span>
+            <span>fileicon</span>
+            <span>fx</span>
+            <span>fzf</span>
+            <span>gh</span>
+            <span>git</span>
+            <span>gitleaks</span>
+            <span>glow</span>
+            <span>gping</span>
+            <span>grpcurl</span>
+            <span>htop</span>
+            <span>hyperfine</span>
+            <span>ipsw</span>
+            <span>jless</span>
+            <span>jq</span>
+            <span>just</span>
+            <span>k9s</span>
+            <span>kubectx</span>
+            <span>ldid</span>
+            <span>lsd</span>
+            <span>mise</span>
+            <span>mkcert</span>
+            <span>ncdu</span>
+            <span>ollama</span>
+            <span>palera1n</span>
+            <span>pandoc</span>
+            <span>rclone</span>
+            <span>restic</span>
+            <span>rg</span>
+            <span>robinsing</span>
+            <span>shellcheck</span>
+            <span>shfmt</span>
+            <span>sk</span>
+            <span>starship</span>
+            <span>stern</span>
+            <span>taskwarrior-tui</span>
+            <span>tmux</span>
+            <span>tofu</span>
+            <span>tree</span>
+            <span>trollrestore</span>
+            <span>typst</span>
+            <span>vhs</span>
+            <span>websocat</span>
+            <span>wget</span>
+            <span>xh</span>
+            <span>yazi</span>
+            <span>yq</span>
+            <span>zellij</span>
+            <span>zoxide</span>
         </div>
 
                 <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">License</h2>
