@@ -1008,6 +1008,25 @@
             If you installed with <code class="ic">--no-link</code>, that name was skipped on purpose — run <code class="ic">wave link {package_name}</code> once to bring it back.
         </p>
 
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="installForm.title">Two Install Forms: One File or a Whole Tree</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="installForm.intro">
+            Most packages are a single executable: MacWave takes that one file out of the archive and puts it under <code class="ic">bin/{package_name}@{version}/</code>. A few ship a directory instead — <code class="ic">git</code> needs <code class="ic">libexec/git-core</code> and <code class="ic">share/git-core/templates</code>, <code class="ic">fish</code> needs <code class="ic">share/fish</code>, <code class="ic">hx</code> needs <code class="ic">runtime/</code>. Those are <strong>tree packages</strong>.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="installForm.tree">
+            You do not pick this: the index declares it with <code class="ic">install: "tree"</code> and <code class="ic">wave install</code> follows it. The whole directory is installed as-is, so tools that look for their data next to their own binary keep working — no <code class="ic">/opt/homebrew</code> paths, no rebuild on your machine.
+        </p>
+        <div class="code-container">
+            <pre><span class="code-dollar">$</span> wave install git
+<span class="code-dollar">$</span> ls <span class="code-dollar">$(</span>wave basedir<span class="code-dollar">)</span>/bin/git@2.56.1
+bin  libexec  share</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="installForm.multi">
+            If a tree carries more than one command, <strong>every</strong> executable in its <code class="ic">bin/</code> is linked: installing <code class="ic">dtc</code> gives you <code class="ic">dtc</code>, <code class="ic">fdtget</code>, <code class="ic">fdtput</code>, <code class="ic">fdtdump</code> and friends, and <code class="ic">testdisk</code> brings <code class="ic">photorec</code> with it. <code class="ic">wave unlink</code> takes them away together.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="installForm.client">
+            Tree packages need MacWave <strong>4.5</strong> or newer. Those records carry <code class="ic">min_client_version</code>, so an older client stops <em>before</em> downloading and tells you to run <code class="ic">wave selfupdate</code> — instead of quietly installing a single file out of the tree.
+        </p>
+
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-i18n="symlink.title">Symlink Management</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-i18n="symlink.intro">
             Since MacWave 2.4, once a versionless link exists, MacWave keeps it pointing at the right version on its own:
@@ -1039,6 +1058,7 @@ Commands:
   linkquery   Show which version an unversioned link points to
   mirror      Show which addresses packages are fetched from
   latest      Show which packages have a newer version available
+  basedir     Print the directory MacWave is installed into
   shellenv    Print the shell code that puts MacWave on your PATH
   manual      Show the full manual (same text as man and info)
 
@@ -1067,6 +1087,8 @@ Global Flags (can be used with any command):
   --install-python-from-source  Fetch the bundled Python from its upstream URL instead of
                                 MacWave's own repository
   MACWAVE_PIP_INDEX             Env var. pip index for the Python deps; default pypi.org/simple
+  MACWAVE_CACERT                Env var. PEM file with extra root certificates for
+                                corporate TLS inspection or a private-CA mirror
 
 Special Flags:
   wave install &lt;pkgname&gt;@&lt;version&gt;  Download certain version(s) of a package
