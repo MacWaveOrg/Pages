@@ -51,10 +51,14 @@ artifact is position-independent).
 
 | Directory | Who it is for | Pros | Cons |
 | --- | --- | --- | --- |
+| **Shared install (`/home/linuxwave/.linuxwave`, recommended)** | Multi-user machines, or anything that runs as a service | The dependencies exist **once**; the tree belongs to a dedicated `linuxwave` account and its **same-named group**, so group members install packages **without sudo**; the config lives in `/etc/linuxwave_config` (`root:linuxwave` 2775); the tree can run under a low-privilege account, so daemons need not be root | Needs one sudo to create the account/group and write `/etc`; **you must log out and back in** afterwards (a group only applies to a new session) or run `newgrp linuxwave`; group members can modify the whole tree, including `lib/wave` itself — that limits "who can influence MacWave/LinuxWave on this box" to that group, but does not remove the ability |
 | `~/.local/linuxwave` | Single user, no system directories | No sudo; delete anytime | Dependencies not shared; one copy per user on a multi-user box |
-| **`/opt/linuxwave` (recommended)** | One install per machine, you are the administrator | One shared copy of the dependencies; fixed path, independent of `$HOME`; matches the habit of installing things under `/opt` | Needs sudo; your distribution's package manager knows nothing about it (upgrades and removal go through `wave`) |
-| `/usr/local/linuxwave` | People who follow FHS | The same shared model as `/opt` | Easily mixed with hand-built `make install` output; answering "who installed this `.so`?" gets harder |
-| Shared install (`/home/linuxwave/.linuxwave`, dedicated user) | Multi-user servers, or a single service that needs it | One copy of the dependencies; the whole tree runs under a dedicated low-privilege user; the config lives in `/etc/linuxwave_config`, so other users can neither change nor use it | You have to create that user and directory; ordinary users cannot touch the tree (that is the point); get the ownership wrong and the failure shows up far away from the cause |
+| `/opt/linuxwave` | Single user, but a fixed path is wanted | One sudo at install time, then the tree **and the config belong to you**; fixed path, independent of `$HOME` | **Not shared at all**: other users can read but not install; your distribution's package manager knows nothing about it (upgrades and removal go through `wave`) |
+| `/usr/local/linuxwave` | People who follow FHS | The same "owned by the installer" model as `/opt` | Easily mixed with hand-built `make install` output; answering "who installed this `.so`?" gets harder |
+
+> Adding people to a shared install: `sudo usermod -aG linuxwave <user>`, then have them
+> log out and back in. For a single service, just run it as the `linuxwave` account — it
+> already owns that group.
 
 #### Configuration files
 
