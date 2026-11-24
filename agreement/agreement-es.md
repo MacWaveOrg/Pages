@@ -1,6 +1,6 @@
 # Acuerdo de usuario de MacWave
 
-Actualizado el 2026-11-17 · MacWave 4.4.0 · https://macwave.org/#agreement
+Actualizado el 2026-11-24 · MacWave 4.6.0 · https://macwave.org/#agreement
 
 MacWave (el software) es desarrollado por el MacWave Team. Los usuarios deben leer todos los acuerdos completos y aceptarlos antes de usar MacWave y sus paquetes de software. De lo contrario, no use MacWave ni sus paquetes de software.
 
@@ -71,5 +71,6 @@ MacWave (el software) es desarrollado por el MacWave Team. Los usuarios deben le
 33. El MacWave Team no se hace responsable de ningún problema causado por espejos de MacWave no autenticados, incluidos, entre otros, interrupciones o suspensiones del servicio, o paquetes de software que contengan código malicioso.
 
 34. MacWave no coopera con ninguna empresa u organización con fines de lucro. Cualquier afirmación de cooperación con el MacWave Team por parte de empresas u organizaciones con fines de lucro es falsificación. El MacWave Team no se hace responsable de las pérdidas que ello cause.
+35. MacWave se distribuye bajo la Licencia Apache 2.0. El texto completo de la licencia está en el archivo LICENSE que se distribuye con MacWave y en el sitio web oficial. Este acuerdo no restringe los derechos que concede dicha licencia.
 
-Este acuerdo se actualizó el 2026-11-17, MacWave 4.4.0. Este acuerdo entra en vigor en cuanto se cumpla cualquiera de las condiciones anteriores.
+Este acuerdo se actualizó el 2026-11-24, MacWave 4.6.0. Este acuerdo entra en vigor en cuanto se cumpla cualquiera de las condiciones anteriores.
