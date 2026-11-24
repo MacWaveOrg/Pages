@@ -27,13 +27,39 @@
 
 ### 安装位置
 
-**注：下列只是我们推荐的目录，实际中你可以任意选择甚至自定义：**
+**下面的目录都是我们推荐的，你也可以任意选择甚至自定义。** 区别不只是路径长短，
+权限模型、依赖占多少磁盘、以后搬不搬得走都不一样，所以先看一遍再选。
 
-macOS（单用户安装）： `~/.local/macwave`  
-macOS（共享安装）：`/opt/macwave`  
-Linux： `/home/linuxwave/.linuxwave`  
+#### macOS（MacWave）
 
-注意：在 Intel Mac 不建议选择 `/usr/local` —— 这可能和 Homebrew 在 Intel Mac 的默认目录冲突。
+| 目录 | 适合谁 | 优点 | 缺点 |
+| --- | --- | --- | --- |
+| **`/opt/macwave`（推荐，默认）** | 自己就是管理员、这台机器只装一份 | 依赖只有**一份**，多用户共用（`deps/` 常常几百 MB）；树是 `root:<管理员组>` 775（目录 setgid），管理员组成员**装包不用 sudo**；与 Homebrew（`/opt/homebrew`）同一套心智；不受 `$HOME` 影响，搬机、改用户名、用 `sudo` 跑脚本都不会打偏 | 安装时要**一次**管理员密码；树是共享状态，同机多个管理员会互相影响（这也正是「依赖只有一份」的另一面）；卸载要动 root 名下的文件（目录组可写，通常不需要额外 sudo） |
+| `~/.local/macwave` | 拿不到管理员密码、只想给自己装、想随手删 | 全程**不需要 sudo**；完全属于你，`rm -rf` 就没了；不写系统目录 | 依赖不共享：每个用户各一份；`$HOME` 一变（换用户名、搬机、`sudo` 下跑）就可能找不到；`PATH` 要跟 `$HOME` 走 |
+| `/usr/local/macwave` | Intel Mac 上习惯 `/usr/local` 的人 | 共享模型与 `/opt` 相同（775 setgid） | **Intel 上可能和 Homebrew 冲突**（Homebrew 的默认前缀就是 `/usr/local`）；Apple 芯片上 `/usr/local` 又不是 Homebrew 的位置，容易两套东西混放 |
+| 自定义路径 | 外置卷、想同时装多份 | 完全自由 | 共享/权限模型要自己定；别忘了把 `<目录>/bin`、`<目录>/links`、`<目录>/lib` 加进 `PATH` |
+
+不想记的话：`wave basedir --raw` 会打印当前装在哪，`wave basedir --set <新目录>` 能把整棵树
+搬走（要求先跑 `wave transfer --all`，让产物变成位置无关的）。
+
+#### Linux（LinuxWave）
+
+| 目录 | 适合谁 | 优点 | 缺点 |
+| --- | --- | --- | --- |
+| `~/.local/linuxwave` | 单用户、不想碰系统目录 | 不需要 sudo；随时删 | 依赖不共享；多用户机器上每人一份 |
+| **`/opt/linuxwave`（推荐）** | 这台机器只装一份、你自己是管理员 | 依赖共享一份；路径固定、不受 `$HOME` 影响；与各种「手工装到 `/opt`」的习惯一致 | 需要 sudo；发行版的包管理器不认识它（升级/清理都靠 `wave` 自己） |
+| `/usr/local/linuxwave` | 习惯 FHS 的人 | 与 `/opt` 相同的共享模型 | 容易和手工 `make install` 的东西混在一起；排查「这份 `.so` 是谁装的」会变难 |
+| 共享安装（`/home/linuxwave/.linuxwave`，专用用户） | 多用户服务器、只想给某个服务用 | 依赖一份；整棵树跑在专用低权限用户下；配置放 `/etc/linuxwave_config`，别的用户既改不了也用不上 | 要建专用用户与目录；普通用户不能直接改树（这正是它的目的）；权限/属主一旦弄错，报错会发生在很靠后的地方 |
+
+#### 配置文件
+
+**系统级配置总是优先于用户级**，所以同一台机器上既有共享安装又有用户级安装时，读的是系统级那份：
+
+- **MacWave**：`/opt/macwave_config`（共享）→ `~/.config/macwave_config`（单用户）
+- **LinuxWave**：`/etc/linuxwave_config`（共享）→ `~/.config/linuxwave_config`（单用户）
+
+**警告：不要随手改配置文件 —— 改了会让 `wave` 行为异常或和你预期不符。** 要换安装位置用
+`wave basedir --set`，它会连配置一起更新。
 
 **配置文件存储于（系统级安装始终优先）：**  
 

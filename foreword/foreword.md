@@ -29,30 +29,44 @@ Note: when you actually run these commands, replace the `<placeholder>` parts wi
 
 ### Install locations
 
-**The directories below are only our recommendations — you can pick any directory, or a
-custom one:**
+**The directories below are all recommendations — you can pick any directory, including a
+custom one.** The difference is not only path length: the permission model, how much disk
+the dependencies take, and whether the tree can be moved later all differ, so read this
+before choosing.
 
-macOS (single user): `~/.local/macwave`
-macOS (shared install): `/opt/macwave`
-Linux: `/home/linuxwave/.linuxwave`
+#### macOS (MacWave)
 
-Note: on Intel Macs we do not recommend `/usr/local` — it may collide with Homebrew's
-default prefix on Intel Macs.
+| Directory | Who it is for | Pros | Cons |
+| --- | --- | --- | --- |
+| **`/opt/macwave` (recommended, default)** | You are an administrator and the machine needs one install | Dependencies exist **once** and are shared by every user (`deps/` is often a few hundred MB); the tree is `root:<admin group>` 775 with setgid directories, so members of the admin group **install packages without sudo**; same mental model as Homebrew (`/opt/homebrew`); independent of `$HOME`, so moving machines, renaming the user or running scripts under `sudo` cannot make it point somewhere else | Needs **one** administrator password at install time; the tree is shared state, so two admins on one machine can affect each other (that is the other side of "one copy of the dependencies"); uninstalling touches files owned by root (the directories are group-writable, so this normally needs no extra sudo) |
+| `~/.local/macwave` | No admin password, or you only want it for yourself, or you want to delete it on a whim | **Never needs sudo**; entirely yours, `rm -rf` removes it; writes nothing outside your home | Dependencies are not shared: one copy per user; breaks if `$HOME` changes (renamed account, migrated machine, running under `sudo`); the `PATH` entry has to follow `$HOME` |
+| `/usr/local/macwave` | Intel Mac users who live in `/usr/local` | Same shared model as `/opt` (775, setgid) | **Can collide with Homebrew on Intel Macs** (its default prefix is `/usr/local`); on Apple silicon `/usr/local` is *not* where Homebrew lives, so two sets of tools easily end up side by side |
+| A custom directory | External volumes, several side-by-side installs | Completely free | You own the permission/sharing model; remember to put `<dir>/bin`, `<dir>/links` and `<dir>/lib` on `PATH` |
 
-**Configuration files live in (the system-wide location always wins):**
+Quick reminder: `wave basedir --raw` prints where the current install lives, and
+`wave basedir --set <new dir>` moves the whole tree (run `wave transfer --all` first so every
+artifact is position-independent).
 
-**MacWave:**
+#### Linux (LinuxWave)
 
-1. `/opt/macwave_config` — shared install
-2. `~/.config/macwave_config` — single-user install
+| Directory | Who it is for | Pros | Cons |
+| --- | --- | --- | --- |
+| `~/.local/linuxwave` | Single user, no system directories | No sudo; delete anytime | Dependencies not shared; one copy per user on a multi-user box |
+| **`/opt/linuxwave` (recommended)** | One install per machine, you are the administrator | One shared copy of the dependencies; fixed path, independent of `$HOME`; matches the habit of installing things under `/opt` | Needs sudo; your distribution's package manager knows nothing about it (upgrades and removal go through `wave`) |
+| `/usr/local/linuxwave` | People who follow FHS | The same shared model as `/opt` | Easily mixed with hand-built `make install` output; answering "who installed this `.so`?" gets harder |
+| Shared install (`/home/linuxwave/.linuxwave`, dedicated user) | Multi-user servers, or a single service that needs it | One copy of the dependencies; the whole tree runs under a dedicated low-privilege user; the config lives in `/etc/linuxwave_config`, so other users can neither change nor use it | You have to create that user and directory; ordinary users cannot touch the tree (that is the point); get the ownership wrong and the failure shows up far away from the cause |
 
-**LinuxWave:**
+#### Configuration files
 
-1. `/etc/linuxwave_config` — shared install
-2. `~/.config/linuxwave_config` — single-user install
+**The system-wide location always wins over the user-level one**, so on a machine with both a
+shared and a per-user install, the shared one is what gets read:
+
+- **MacWave**: `/opt/macwave_config` (shared) → `~/.config/macwave_config` (single user)
+- **LinuxWave**: `/etc/linuxwave_config` (shared) → `~/.config/linuxwave_config` (single user)
 
 **Warning: do not edit the configuration files casually — that can make `wave` behave
-strangely or in ways you do not expect.**
+strangely or in ways you do not expect.** To change the install location use
+`wave basedir --set`; it updates the configuration along with the tree.
 
 ### Mirrors
 
