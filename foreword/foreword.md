@@ -29,12 +29,38 @@ Note: when you actually run these commands, replace the `<placeholder>` parts wi
 
 ### Install locations
 
-**The directories below are all recommendations — you can pick any directory, including a
-custom one.** The difference is not only path length: the permission model, how much disk
-the dependencies take, and whether the tree can be moved later all differ, so read this
-before choosing.
+**The directories below are only our recommendations — you can pick any directory, or a
+custom one (recommended first):**
 
-#### macOS (MacWave)
+macOS (shared install, recommended): `/opt/macwave`
+macOS (single user): `~/.local/macwave`
+Linux (shared install, recommended): `/home/linuxwave/.linuxwave`
+Linux (single user): `~/.local/linuxwave`
+
+Note: on Intel Macs we do not recommend `/usr/local` — it may collide with Homebrew's
+default prefix on Intel Macs.
+
+**Configuration files live in (the system-wide location always wins):**
+
+**MacWave:**
+
+1. `/opt/macwave_config` — shared install
+2. `~/.config/macwave_config` — single-user install
+
+**LinuxWave:**
+
+1. `/etc/linuxwave_config` — shared install
+2. `~/.config/linuxwave_config` — single-user install
+
+**Warning: do not edit the configuration files casually — that can make `wave` behave
+strangely or in ways you do not expect.**
+
+#### Pros and cons of each directory
+
+Worth a look before choosing: the permission model, how much disk the dependencies take,
+and whether the tree can be moved later all differ.
+
+**macOS (MacWave)**
 
 | Directory | Who it is for | Pros | Cons |
 | --- | --- | --- | --- |
@@ -47,7 +73,7 @@ Quick reminder: `wave basedir --raw` prints where the current install lives, and
 `wave basedir --set <new dir>` moves the whole tree (run `wave transfer --all` first so every
 artifact is position-independent).
 
-#### Linux (LinuxWave)
+**Linux (LinuxWave)**
 
 | Directory | Who it is for | Pros | Cons |
 | --- | --- | --- | --- |
@@ -59,18 +85,6 @@ artifact is position-independent).
 > Adding people to a shared install: `sudo usermod -aG linuxwave <user>`, then have them
 > log out and back in. For a single service, just run it as the `linuxwave` account — it
 > already owns that group.
-
-#### Configuration files
-
-**The system-wide location always wins over the user-level one**, so on a machine with both a
-shared and a per-user install, the shared one is what gets read:
-
-- **MacWave**: `/opt/macwave_config` (shared) → `~/.config/macwave_config` (single user)
-- **LinuxWave**: `/etc/linuxwave_config` (shared) → `~/.config/linuxwave_config` (single user)
-
-**Warning: do not edit the configuration files casually — that can make `wave` behave
-strangely or in ways you do not expect.** To change the install location use
-`wave basedir --set`; it updates the configuration along with the tree.
 
 ### Mirrors
 
