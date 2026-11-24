@@ -1,0 +1,40 @@
+name: Website version check
+
+# 官网显示的版本号必须与 Selfupdate 的 macwavedata/latest.toml 一致。
+#
+# 4.6.0 发版时官网一直显示 4.5.2：版本号的主体是 i18n.js 的 8 个 'version.block'
+# （8 种语言），index.html 只有两行静态兜底，改一处看起来就「像改过了」。
+# 所以这里把它做成闸门，而不是靠发版清单里的一行字。
+#
+# 两种触发方式互补：
+#   - push（改了 index.html / i18n.js / 本脚本）→ 拦「改了但改错」
+#   - schedule（每天一次）→ 拦「发版了但官网没动」：Selfupdate 一变，这里就红
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - i18n.js
+      - scripts/check_version.py
+      - .github/workflows/version-check.yml
+  schedule:
+    - cron: "23 4 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Pages
+        uses: actions/checkout@v7
+
+      # 版本号的事实来源是 Selfupdate，不是本站。公开仓库，无需 token。
+      - name: Checkout Selfupdate
+        uses: actions/checkout@v7
+        with:
+          repository: MacWaveOrg/Selfupdate
+          path: .selfupdate
+
+      - name: Compare version.block with latest.toml
+        run: python3 scripts/check_version.py --latest .selfupdate/macwavedata/latest.toml
