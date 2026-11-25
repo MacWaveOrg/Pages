@@ -150,6 +150,15 @@
             border-radius: 4px;
         }
 
+        /* 正文里的裸链接（目前只有许可证那处）默认是深蓝，深色背景上看不清，统一改白 */
+        .content-section [data-i18n] a {
+            color: #ffffff;
+        }
+
+        .content-section [data-i18n] a:hover {
+            opacity: 0.8;
+        }
+
         .copy-btn {
             position: absolute;
             top: 12px;
